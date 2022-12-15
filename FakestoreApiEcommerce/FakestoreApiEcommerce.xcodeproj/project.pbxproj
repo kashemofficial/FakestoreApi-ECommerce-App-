@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C1247E8294B59390076607B /* ValidationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1247E7294B59390076607B /* ValidationExtension.swift */; };
+		6C1247EA294B59870076607B /* AlertExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1247E9294B59870076607B /* AlertExtension.swift */; };
 		6C19503B293F94470030923C /* CartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C195039293F94470030923C /* CartTableViewCell.swift */; };
 		6C19503C293F94470030923C /* CartTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C19503A293F94470030923C /* CartTableViewCell.xib */; };
 		6C195042293FA6AB0030923C /* CartAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C195041293FA6AB0030923C /* CartAddViewController.swift */; };
@@ -26,11 +28,11 @@
 		6C54CAFD2939C8D00082D0BA /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C54CAFC2939C8D00082D0BA /* ProductListViewController.swift */; };
 		6C8C1BA92944907B004DE6BB /* SignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8C1BA82944907B004DE6BB /* SignInModel.swift */; };
 		6CC652BC2937CC8A0044660C /* ProductsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC652BB2937CC8A0044660C /* ProductsDetailsViewController.swift */; };
-		6CE94B572948E4D3004D78ED /* UIAlertController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE94B552948E4D3004D78ED /* UIAlertController + Extension.swift */; };
-		6CE94B582948E4D3004D78ED /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE94B562948E4D3004D78ED /* String + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6C1247E7294B59390076607B /* ValidationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationExtension.swift; sourceTree = "<group>"; };
+		6C1247E9294B59870076607B /* AlertExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertExtension.swift; sourceTree = "<group>"; };
 		6C195039293F94470030923C /* CartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCell.swift; sourceTree = "<group>"; };
 		6C19503A293F94470030923C /* CartTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartTableViewCell.xib; sourceTree = "<group>"; };
 		6C195041293FA6AB0030923C /* CartAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartAddViewController.swift; sourceTree = "<group>"; };
@@ -50,8 +52,6 @@
 		6C54CAFC2939C8D00082D0BA /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		6C8C1BA82944907B004DE6BB /* SignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModel.swift; sourceTree = "<group>"; };
 		6CC652BB2937CC8A0044660C /* ProductsDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDetailsViewController.swift; sourceTree = "<group>"; };
-		6CE94B552948E4D3004D78ED /* UIAlertController + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController + Extension.swift"; sourceTree = "<group>"; };
-		6CE94B562948E4D3004D78ED /* String + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +67,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6C1247E6294B591E0076607B /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6C1247E7294B59390076607B /* ValidationExtension.swift */,
+				6C1247E9294B59870076607B /* AlertExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		6C195038293F93ED0030923C /* CartView */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,8 +137,8 @@
 		6C4EE0E0293745F300F59103 /* FakestoreApiEcommerce */ = {
 			isa = PBXGroup;
 			children = (
+				6C1247E6294B591E0076607B /* Extension */,
 				6C4EE0F52937460000F59103 /* System */,
-				6CE94B542948E4D3004D78ED /* Extension */,
 				6C30E6D3293B530600EE6DB2 /* Utility */,
 				6C30E6CF293B360D00EE6DB2 /* Library */,
 				6C4EE0F62937460C00F59103 /* Model */,
@@ -203,16 +212,6 @@
 				6C4EE0E7293745F300F59103 /* Main.storyboard */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		6CE94B542948E4D3004D78ED /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				6CE94B552948E4D3004D78ED /* UIAlertController + Extension.swift */,
-				6CE94B562948E4D3004D78ED /* String + Extension.swift */,
-			);
-			name = Extension;
-			path = "../../../iOS All/API/LogIn&SignUp/LogIn&SignUp/Extension";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,16 +296,16 @@
 			files = (
 				6C4EE0E6293745F300F59103 /* ViewController.swift in Sources */,
 				6C4EE0FF293749D400F59103 /* ProductModel.swift in Sources */,
-				6CE94B582948E4D3004D78ED /* String + Extension.swift in Sources */,
 				6C30E6D5293B551400EE6DB2 /* Utility.swift in Sources */,
 				6C8C1BA92944907B004DE6BB /* SignInModel.swift in Sources */,
+				6C1247E8294B59390076607B /* ValidationExtension.swift in Sources */,
 				6C19503B293F94470030923C /* CartTableViewCell.swift in Sources */,
+				6C1247EA294B59870076607B /* AlertExtension.swift in Sources */,
 				6C30E6D1293B360D00EE6DB2 /* ProgressHUD.swift in Sources */,
 				6C54CAFD2939C8D00082D0BA /* ProductListViewController.swift in Sources */,
 				6C4EE102293759CD00F59103 /* ProductTableViewCell.swift in Sources */,
 				6C4EE0E2293745F300F59103 /* AppDelegate.swift in Sources */,
 				6C4EE0E4293745F300F59103 /* SceneDelegate.swift in Sources */,
-				6CE94B572948E4D3004D78ED /* UIAlertController + Extension.swift in Sources */,
 				6CC652BC2937CC8A0044660C /* ProductsDetailsViewController.swift in Sources */,
 				6C195042293FA6AB0030923C /* CartAddViewController.swift in Sources */,
 			);
