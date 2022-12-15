@@ -1,0 +1,10 @@
+
+Showing Recent Messages
+Error while fetching remote repositoryThe local repository at /Users/abulkashem/Library/Developer/Xcode/DerivedData/SDImageAPI-fapaaunlgrdmlkadgljfccxwuzaq/SourcePackages/checkouts/SDWebImage is invalid; try resetting package caches
+
+
+SDWebImage
+
+
+
+Resolving Package Graph Failed    3/12/22 9:00 PM    0.1 seconds
