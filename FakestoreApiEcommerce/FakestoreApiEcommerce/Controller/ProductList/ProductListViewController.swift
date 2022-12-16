@@ -17,23 +17,24 @@ class ProductListViewController: UIViewController {
     var allProducts = [ProductModel]()
     var cartCount = 0
     let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+    //let imageProfile = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
     
     override func viewDidLoad(){
         super.viewDidLoad()
         setUpTableView()
         fetchData()
         showBadge()
-        
-        
+                
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.badgeCount.text = String(cartCount)
+        //self.badgeCount.text = String(cartCount)
+        self.badgeCount.text = String(AppData.addCart)
     }
     
     @IBAction func allCartActionButton(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
+   
+        let vc = storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
         vc.delegate = self
         vc.selectedItems = addToCart
         self.navigationController?.pushViewController(vc, animated: true)
@@ -67,7 +68,6 @@ class ProductListViewController: UIViewController {
         dataTask.resume()
     }
     
-    
 }
 
 extension ProductListViewController : UITableViewDataSource {
@@ -76,7 +76,7 @@ extension ProductListViewController : UITableViewDataSource {
         return allProducts.count
     }
     
-// MARK: UILabel Round
+    // MARK: UILabel Round
     
     func badgeLabel() -> UILabel {
         badgeCount.translatesAutoresizingMaskIntoConstraints = false
@@ -94,22 +94,21 @@ extension ProductListViewController : UITableViewDataSource {
         let badge = badgeLabel()
         allCartButton.addSubview(badge)
         NSLayoutConstraint.activate([
-            badge.leftAnchor.constraint(equalTo: allCartButton.leftAnchor, constant: 27),
+            badge.leftAnchor.constraint(equalTo: allCartButton.leftAnchor, constant: 34),
             badge.topAnchor.constraint(equalTo: allCartButton.topAnchor, constant: -1),
             badge.widthAnchor.constraint(equalToConstant: 20),
             badge.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
         cell.configure(product: allProducts[indexPath.row])
         cell.addToCart.addTarget(self, action: #selector(selectedItem), for: .touchUpInside)
-//        UserDefaults.standard.string(forKey: "cartCount")
         
         return cell
     }
-
+    
     //MARK: selectCartItem
     
     @objc func selectedItem(_ sender: UIButton){
@@ -123,10 +122,10 @@ extension ProductListViewController : UITableViewDataSource {
                 self.allCartButton.pulsate()
                 if sender.tag == 0{
                     cartCount += 1
+                    AppData.addCart = cartCount
                 }
                 self.badgeCount.text! = String(cartCount)
-//                UserDefaults.standard.set( badgeCount.text!, forKey: "cartCount")
-
+                
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
@@ -135,6 +134,8 @@ extension ProductListViewController : UITableViewDataSource {
         }
     }
 }
+
+
 
 extension ProductListViewController : UITableViewDelegate{
     
@@ -183,8 +184,9 @@ extension UIView {
 
 extension ProductListViewController: CurrentCatNumber {
     func getNumber(_ num: Int) {
-        cartCount = num
-        self.badgeCount.text = String(cartCount)
+      //cartCount = num
+        AppData.addCart = num
+        self.badgeCount.text = String(AppData.addCart)
     }
 }
 

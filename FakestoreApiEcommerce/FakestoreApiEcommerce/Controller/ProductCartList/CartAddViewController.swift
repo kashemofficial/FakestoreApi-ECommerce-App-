@@ -23,6 +23,11 @@ class CartAddViewController: UIViewController {
         setUPTableViewCell()
     }
     
+    @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
     func setUPTableViewCell() {
         let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
@@ -42,6 +47,7 @@ extension CartAddViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
         cell.cartConfigure(product: selectedItems[indexPath.row])
+        
         return cell
     }
     

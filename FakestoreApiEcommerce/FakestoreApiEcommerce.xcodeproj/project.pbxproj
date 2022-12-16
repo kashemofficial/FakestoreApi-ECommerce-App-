@@ -27,6 +27,7 @@
 		6C4EE103293759CD00F59103 /* ProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C4EE101293759CD00F59103 /* ProductTableViewCell.xib */; };
 		6C54CAFD2939C8D00082D0BA /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C54CAFC2939C8D00082D0BA /* ProductListViewController.swift */; };
 		6C8C1BA92944907B004DE6BB /* SignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8C1BA82944907B004DE6BB /* SignInModel.swift */; };
+		6CB5A6A9294C70D800AF28B9 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB5A6A8294C70D800AF28B9 /* AppData.swift */; };
 		6CC652BC2937CC8A0044660C /* ProductsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC652BB2937CC8A0044660C /* ProductsDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		6C4EE101293759CD00F59103 /* ProductTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductTableViewCell.xib; sourceTree = "<group>"; };
 		6C54CAFC2939C8D00082D0BA /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		6C8C1BA82944907B004DE6BB /* SignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModel.swift; sourceTree = "<group>"; };
+		6CB5A6A8294C70D800AF28B9 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		6CC652BB2937CC8A0044660C /* ProductsDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				6C30E6D4293B551400EE6DB2 /* Utility.swift */,
+				6CB5A6A8294C70D800AF28B9 /* AppData.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				6C4EE0E4293745F300F59103 /* SceneDelegate.swift in Sources */,
 				6CC652BC2937CC8A0044660C /* ProductsDetailsViewController.swift in Sources */,
 				6C195042293FA6AB0030923C /* CartAddViewController.swift in Sources */,
+				6CB5A6A9294C70D800AF28B9 /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
