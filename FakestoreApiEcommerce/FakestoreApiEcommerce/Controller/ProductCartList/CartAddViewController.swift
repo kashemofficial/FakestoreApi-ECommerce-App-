@@ -27,7 +27,6 @@ class CartAddViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    
     func setUPTableViewCell() {
         let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
@@ -47,7 +46,6 @@ extension CartAddViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
         cell.cartConfigure(product: selectedItems[indexPath.row])
-        
         return cell
     }
     
@@ -75,12 +73,11 @@ extension CartAddViewController: UITableViewDelegate, UITableViewDataSource {
                                          style: .default){(action) in
             self.selectedItems.remove(at: indexPath.row)
             self.tableView?.deleteRows(at: [indexPath], with: .automatic)
-            addToCart = self.selectedItems  //reload cart
+            addToCart = self.selectedItems  //remove reload cart list
             
             if let delegate = self.delegate {
                 delegate.getNumber(self.selectedItems.count)
             }
-            
         }
         let cancelAction = UIAlertAction(title: "No", style: .default,handler: nil)
         alert.addAction(deleteAction)
@@ -88,3 +85,5 @@ extension CartAddViewController: UITableViewDelegate, UITableViewDataSource {
         present(alert,animated: true)
     }
 }
+
+

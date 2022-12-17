@@ -39,14 +39,14 @@ class ViewController: UIViewController {
         passwordView.layer.shadowRadius = 5
     }
     
-
+    
     
     @IBAction func buttonSignInTapped(_ sender: UIButton) {
         if let userName = userNameTextField.text, let passWord = passwordTextField.text {
             
             ProgressHUD.show()
             ValidationCode()
-
+            
             let url = URL(string: "https://dummyjson.com/auth/login")
             guard url != nil else{
                 print("Error")
@@ -73,13 +73,12 @@ class ViewController: UIViewController {
                 guard let data = data else { return }
                 do{
                     if let jsonParsing = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        print(jsonParsing)
+                        print(jsonParsing) //Json Parsing Print
                         
                         if (jsonParsing["username"] != nil) || (jsonParsing["password"] != nil) {
                             DispatchQueue.main.async { [self] in
                                 ProgressHUD.dismiss()
                                 let vc = storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
-//                                vc.modalPresentationStyle = .fullScreen
                                 self.navigationController?.pushViewController(vc, animated: true)
                             }
                         }else{

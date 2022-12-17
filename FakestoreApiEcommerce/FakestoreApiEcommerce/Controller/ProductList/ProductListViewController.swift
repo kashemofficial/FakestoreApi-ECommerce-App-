@@ -17,28 +17,42 @@ class ProductListViewController: UIViewController {
     var allProducts = [ProductModel]()
     var cartCount = 0
     let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    //let imageProfile = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+    let imageProfile = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+    let cartButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+    
     
     override func viewDidLoad(){
         super.viewDidLoad()
         setUpTableView()
         fetchData()
-        showBadge()
-                
+       // showBadge()
+        //showBadgeImage()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //self.badgeCount.text = String(cartCount)
         self.badgeCount.text = String(AppData.addCart)
+        navigationController( )
+        
     }
     
-    @IBAction func allCartActionButton(_ sender: UIButton) {
-   
-        let vc = storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
-        vc.delegate = self
-        vc.selectedItems = addToCart
-        self.navigationController?.pushViewController(vc, animated: true)
+    
+    func navigationController(){
+        let height: CGFloat = 50
+        let bounds = self.navigationController!.navigationBar.bounds
+        self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height + height)
+        self.navigationController?.navigationBar.backgroundColor = .gray
     }
+    
+    
+//    @IBAction func allCartActionButton(_ sender: UIButton) {
+//
+//        let vc = storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
+//        vc.delegate = self
+//        vc.selectedItems = addToCart
+//        self.navigationController?.pushViewController(vc, animated: true)
+//    }
     
     func setUpTableView(){
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
@@ -67,6 +81,7 @@ class ProductListViewController: UIViewController {
         })
         dataTask.resume()
     }
+    
     
 }
 
@@ -101,11 +116,31 @@ extension ProductListViewController : UITableViewDataSource {
         ])
     }
     
+    //MARK: UIImage Round
+    
+    func badgeImage() -> UIImageView {
+        imageProfile.translatesAutoresizingMaskIntoConstraints = false
+        // imageProfile.layer.cornerRadius = badgeCount.bounds.size.height / 2
+        imageProfile.backgroundColor = .systemRed
+        return imageProfile
+    }
+    
+    func showBadgeImage() {
+        let badge = badgeImage()
+        allCartButton.addSubview(badge)
+        NSLayoutConstraint.activate([
+            badge.rightAnchor.constraint(equalTo: allCartButton.leftAnchor, constant: -20),
+            badge.topAnchor.constraint(equalTo: allCartButton.topAnchor, constant: 10),
+            badge.widthAnchor.constraint(equalToConstant: 40),
+            badge.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
         cell.configure(product: allProducts[indexPath.row])
         cell.addToCart.addTarget(self, action: #selector(selectedItem), for: .touchUpInside)
-        
+        AppData.addProduct = addToCart.description
         return cell
     }
     
@@ -119,10 +154,13 @@ extension ProductListViewController : UITableViewDataSource {
             let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { [self](action:UIAlertAction!) in
                 addToCart.append(item)
+                // AppData.addProduct = addToCart.debugDescription
+                
                 self.allCartButton.pulsate()
                 if sender.tag == 0{
                     cartCount += 1
                     AppData.addCart = cartCount
+                    
                 }
                 self.badgeCount.text! = String(cartCount)
                 
@@ -180,13 +218,16 @@ extension UIView {
     }
 }
 
-//MARK: cartCount delet pora kom jabe
+//MARK: cartCount delete pora kome jabe
 
 extension ProductListViewController: CurrentCatNumber {
     func getNumber(_ num: Int) {
-      //cartCount = num
+        //cartCount = num
         AppData.addCart = num
         self.badgeCount.text = String(AppData.addCart)
     }
 }
+
+
+
 
