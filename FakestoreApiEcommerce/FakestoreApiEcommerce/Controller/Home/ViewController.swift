@@ -40,63 +40,48 @@ class ViewController: UIViewController {
     }
     
     
-    
-    @IBAction func buttonSignInTapped(_ sender: UIButton) {
+    @IBAction func buttonSignInTapped(_ sender: UIButton) {        ValidationCode()
         if let userName = userNameTextField.text, let passWord = passwordTextField.text {
             
             ProgressHUD.show()
-            ValidationCode()
-            
-            let url = URL(string: "https://dummyjson.com/auth/login")
-            guard url != nil else{
-                print("Error")
-                return
-            }
-            var request = URLRequest(url: url!,cachePolicy: .useProtocolCachePolicy,timeoutInterval: 10)
-            let headers = ["Content-Type" : "application/json"]
-            
-            request.allHTTPHeaderFields = headers
-            request.httpMethod = "POST"
             
             let requestObject = ["username": userName,
                                  "password": passWord ]
             
-            do {
-                let requestBody = try JSONSerialization.data(withJSONObject: requestObject, options: .fragmentsAllowed)
-                request.httpBody = requestBody
-            } catch{
-                print("error")
-            }
-            let session = URLSession.shared
-            let dataTask = session.dataTask(with: request){data,responce,error in
-                //json parsing
-                guard let data = data else { return }
-                do{
-                    if let jsonParsing = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        print(jsonParsing) //Json Parsing Print
-                        
-                        if (jsonParsing["username"] != nil) || (jsonParsing["password"] != nil) {
-                            DispatchQueue.main.async { [self] in
-                                ProgressHUD.dismiss()
-                                let vc = storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
+            let service = WebService()
+            service.call(with: "https://dummyjson.com/auth/login", httpMethod: "POST", httpBody: requestObject) { data in
+                
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    
+                    ProgressHUD.dismiss()
+                    
+                    if let data = data {
+                        do {
+                            let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+                            
+                            if let token = loginResponse.token, let userName = loginResponse.username {
+                                Utility.userLoggedIn(true)
+                                
+                                let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
                                 self.navigationController?.pushViewController(vc, animated: true)
                             }
-                        }else{
-                            DispatchQueue.main.async { [self] in  //when username and password doesn't match
-                                ProgressHUD.dismiss()
-                                // show error pop up message
+                            else {
+                                //show error alert
                             }
                         }
-                    }else{ // date is emapty
-                        
+                        catch let error {
+                            //show error alert
+                        }
                     }
-                }catch{
-                    print("Parsing Error")
+                    else {
+                        //show error alert
+                    }
                 }
             }
-            dataTask.resume()
         }
     }
+
 }
 
 //MARK: Password ValidationCode
@@ -129,6 +114,9 @@ extension ViewController{
         }
     }
 }
+
+
+
 
 
 

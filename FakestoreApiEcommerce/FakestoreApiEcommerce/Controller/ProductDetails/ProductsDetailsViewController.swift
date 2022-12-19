@@ -34,12 +34,12 @@ class ProductsDetailsViewController: UIViewController {
         producTCategory.text = pCategory
         producTPrice.text = pPrice
         buyNowButton.layer.cornerRadius = 10
-
+        
     }
-          
+    
     @IBAction func buyButtonAction(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
         self.navigationController?.popViewController(animated: true)
     }
-
+    
 }

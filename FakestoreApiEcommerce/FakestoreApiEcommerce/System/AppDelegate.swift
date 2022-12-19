@@ -15,8 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let sb = UIStoryboard.init(name: "Main", bundle: nil)
-        let loginVC = sb.instantiateViewController(identifier: "ViewController")
-        let navVC = UINavigationController(rootViewController: loginVC)
+        var vc: UIViewController!
+        
+        if Utility.isUserLoggedIn() {
+            vc = sb.instantiateViewController(identifier: "ProductListViewController")
+        }
+        else {
+            vc = sb.instantiateViewController(identifier: "ViewController")
+        }
+        
+        let navVC = UINavigationController(rootViewController: vc)
         
         window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.rootViewController = navVC

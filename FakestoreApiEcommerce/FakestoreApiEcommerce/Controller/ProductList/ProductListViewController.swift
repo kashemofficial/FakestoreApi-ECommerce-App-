@@ -17,7 +17,7 @@ class ProductListViewController: UIViewController {
     var allProducts = [ProductModel]()
     var cartCount = 0
     let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    let imageProfile = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+    //let imageProfile = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     let cartButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     
     
@@ -25,7 +25,7 @@ class ProductListViewController: UIViewController {
         super.viewDidLoad()
         setUpTableView()
         fetchData()
-       // showBadge()
+        // showBadge()
         //showBadgeImage()
         
     }
@@ -33,26 +33,25 @@ class ProductListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         //self.badgeCount.text = String(cartCount)
         self.badgeCount.text = String(AppData.addCart)
-        navigationController( )
-        
+        navigationController()
     }
-    
     
     func navigationController(){
-        let height: CGFloat = 50
+        let height: CGFloat = 200
         let bounds = self.navigationController!.navigationBar.bounds
-        self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height + height)
-        self.navigationController?.navigationBar.backgroundColor = .gray
+        self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 50, width: bounds.width, height: bounds.height + height)
+        self.navigationController?.navigationBar.backgroundColor = .white
     }
     
     
-//    @IBAction func allCartActionButton(_ sender: UIButton) {
-//
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
-//        vc.delegate = self
-//        vc.selectedItems = addToCart
-//        self.navigationController?.pushViewController(vc, animated: true)
-//    }
+    
+    //    @IBAction func allCartActionButton(_ sender: UIButton) {
+    //
+    //        let vc = storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
+    //        vc.delegate = self
+    //        vc.selectedItems = addToCart
+    //        self.navigationController?.pushViewController(vc, animated: true)
+    //    }
     
     func setUpTableView(){
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
@@ -81,8 +80,6 @@ class ProductListViewController: UIViewController {
         })
         dataTask.resume()
     }
-    
-    
 }
 
 extension ProductListViewController : UITableViewDataSource {
@@ -92,7 +89,6 @@ extension ProductListViewController : UITableViewDataSource {
     }
     
     // MARK: UILabel Round
-    
     func badgeLabel() -> UILabel {
         badgeCount.translatesAutoresizingMaskIntoConstraints = false
         badgeCount.layer.cornerRadius = badgeCount.bounds.size.height / 2
@@ -118,23 +114,23 @@ extension ProductListViewController : UITableViewDataSource {
     
     //MARK: UIImage Round
     
-    func badgeImage() -> UIImageView {
-        imageProfile.translatesAutoresizingMaskIntoConstraints = false
-        // imageProfile.layer.cornerRadius = badgeCount.bounds.size.height / 2
-        imageProfile.backgroundColor = .systemRed
-        return imageProfile
-    }
+    //    func badgeImage() -> UIImageView {
+    //        imageProfile.translatesAutoresizingMaskIntoConstraints = false
+    //        // imageProfile.layer.cornerRadius = badgeCount.bounds.size.height / 2
+    //        imageProfile.backgroundColor = .systemRed
+    //        return imageProfile
+    //    }
     
-    func showBadgeImage() {
-        let badge = badgeImage()
-        allCartButton.addSubview(badge)
-        NSLayoutConstraint.activate([
-            badge.rightAnchor.constraint(equalTo: allCartButton.leftAnchor, constant: -20),
-            badge.topAnchor.constraint(equalTo: allCartButton.topAnchor, constant: 10),
-            badge.widthAnchor.constraint(equalToConstant: 40),
-            badge.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
+    //    func showBadgeImage() {
+    //        let badge = badgeImage()
+    //        allCartButton.addSubview(badge)
+    //        NSLayoutConstraint.activate([
+    //            badge.rightAnchor.constraint(equalTo: allCartButton.leftAnchor, constant: -20),
+    //            badge.topAnchor.constraint(equalTo: allCartButton.topAnchor, constant: 10),
+    //            badge.widthAnchor.constraint(equalToConstant: 40),
+    //            badge.heightAnchor.constraint(equalToConstant: 40)
+    //        ])
+    //    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
@@ -154,7 +150,6 @@ extension ProductListViewController : UITableViewDataSource {
             let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { [self](action:UIAlertAction!) in
                 addToCart.append(item)
-                // AppData.addProduct = addToCart.debugDescription
                 
                 self.allCartButton.pulsate()
                 if sender.tag == 0{
@@ -163,7 +158,6 @@ extension ProductListViewController : UITableViewDataSource {
                     
                 }
                 self.badgeCount.text! = String(cartCount)
-                
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
@@ -172,8 +166,6 @@ extension ProductListViewController : UITableViewDataSource {
         }
     }
 }
-
-
 
 extension ProductListViewController : UITableViewDelegate{
     
@@ -214,7 +206,6 @@ extension UIView {
         pulse.initialVelocity = 1
         pulse.damping = 10
         layer.add(pulse, forKey: "pulse")
-        
     }
 }
 
