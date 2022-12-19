@@ -53,7 +53,7 @@
             </objects>
             <point key="canvasLocation" x="-558" y="44"/>
         </scene>
-        <!--Details-->
+        <!--Products Details View Controller-->
         <scene sceneID="PBq-5i-bXz">
             <objects>
                 <viewController storyboardIdentifier="ProductsDetailsViewController" id="dRI-2v-hOM" customClass="ProductsDetailsViewController" customModule="FakestoreApiEcommerce" customModuleProvider="target" sceneMemberID="viewController">
@@ -189,9 +189,6 @@
                             <constraint firstItem="Ktp-m7-5C2" firstAttribute="width" secondItem="K6l-n5-Kv1" secondAttribute="width" id="ptD-4o-VZj"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Details" id="zgy-EH-MxI">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="jRj-ec-Mw9"/>
-                    </navigationItem>
                     <size key="freeformSize" width="393" height="1000"/>
                     <connections>
                         <outlet property="buyNowButton" destination="pJR-f6-N2K" id="Znd-Am-s2d"/>

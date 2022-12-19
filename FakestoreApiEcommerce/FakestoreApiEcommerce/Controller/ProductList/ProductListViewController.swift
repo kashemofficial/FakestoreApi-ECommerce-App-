@@ -24,7 +24,7 @@ class ProductListViewController: UIViewController {
         super.viewDidLoad()
         setUpTableView()
         fetchData()
-         showBadge()
+        showBadge()
         //showBadgeImage()
         rightBarButtonEdit()
         imageProfileSetup()

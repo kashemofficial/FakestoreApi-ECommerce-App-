@@ -25,6 +25,7 @@ class ProductsDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configus()
+        title = "Details"
     }
     
     func configus(){

@@ -34,7 +34,7 @@ class CartAddViewController: UIViewController {
         leftButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         leftButton.tintColor = .black
         leftButton.layer.cornerRadius = 5
-       leftButton.addTarget(self, action: #selector(backButtonAction), for: UIControl.Event.touchUpInside)
+        leftButton.addTarget(self, action: #selector(backButtonAction), for: UIControl.Event.touchUpInside)
         let leftBarButton = UIBarButtonItem()
         leftBarButton.customView = leftButton
         self.navigationItem.leftBarButtonItem = leftBarButton
@@ -43,7 +43,7 @@ class CartAddViewController: UIViewController {
     @objc func backButtonAction() {
         navigationController?.popViewController(animated: true)
     }
-
+    
     
     func setUPTableViewCell() {
         let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
