@@ -17,15 +17,33 @@ class CartAddViewController: UIViewController {
     
     var selectedItems = [ProductModel]()
     var delegate: CurrentCatNumber?
+    let leftButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUPTableViewCell()
+        leftBarButtonEdit()
     }
     
-    @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
+    func leftBarButtonEdit(){
+        title = "Product"
+        //button.frame = CGRectMake(0,0, 100, 60)
+        leftButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        leftButton.contentVerticalAlignment = .fill
+        leftButton.contentHorizontalAlignment = .fill
+        leftButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        leftButton.tintColor = .black
+        leftButton.layer.cornerRadius = 5
+       leftButton.addTarget(self, action: #selector(backButtonAction), for: UIControl.Event.touchUpInside)
+        let leftBarButton = UIBarButtonItem()
+        leftBarButton.customView = leftButton
+        self.navigationItem.leftBarButtonItem = leftBarButton
+    }
+    
+    @objc func backButtonAction() {
         navigationController?.popViewController(animated: true)
     }
+
     
     func setUPTableViewCell() {
         let nib = UINib(nibName: "CartTableViewCell", bundle: nil)

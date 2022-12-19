@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Product-->
+        <!--Product List View Controller-->
         <scene sceneID="6NA-Mz-7Ij">
             <objects>
                 <viewController storyboardIdentifier="ProductListViewController" id="YSU-0D-Ga0" customClass="ProductListViewController" customModule="FakestoreApiEcommerce" customModuleProvider="target" sceneMemberID="viewController">
@@ -45,16 +45,6 @@
                             <constraint firstItem="dEX-wD-fJf" firstAttribute="top" secondItem="tVr-8s-Lah" secondAttribute="top" id="ksD-qW-Jg9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Product" id="GXr-Wa-ske">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="YKU-1a-Vyg">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="T9o-Qb-MKx">
-                                <rect key="frame" x="340.33333333333331" y="4.6666666666666679" width="53.666666666666686" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="cart" catalog="system"/>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="dEX-wD-fJf" id="79Z-qD-9oT"/>
                     </connections>
@@ -248,14 +238,6 @@
                             <constraint firstItem="pxC-RF-0pu" firstAttribute="leading" secondItem="74F-PY-ZeI" secondAttribute="leading" id="Xcn-Jj-VS1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Ihe-Ev-xvv">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="lv1-Zt-1Qx">
-                            <imageReference key="image" image="arrow.backward" catalog="system" symbolScale="large"/>
-                            <connections>
-                                <action selector="backButtonAction:" destination="tqz-c7-nOl" id="QFN-bN-bZ2"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="pxC-RF-0pu" id="BqS-p9-PGd"/>
                     </connections>
@@ -415,8 +397,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.backward" catalog="system" width="128" height="95"/>
-        <image name="cart" catalog="system" width="128" height="102"/>
         <image name="lock" catalog="system" width="125" height="128"/>
         <image name="person" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">

@@ -12,46 +12,59 @@ var addToCart = [ProductModel]()
 class ProductListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var allCartButton: UIButton!
     
     var allProducts = [ProductModel]()
     var cartCount = 0
     let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+    let rightBarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
     //let imageProfile = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-    let cartButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     
     
     override func viewDidLoad(){
         super.viewDidLoad()
         setUpTableView()
         fetchData()
-        // showBadge()
+         showBadge()
         //showBadgeImage()
-        
+        rightBarButtonEdit()
+        imageProfileSetup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //self.badgeCount.text = String(cartCount)
         self.badgeCount.text = String(AppData.addCart)
-        navigationController()
     }
     
-    func navigationController(){
-        let height: CGFloat = 200
-        let bounds = self.navigationController!.navigationBar.bounds
-        self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 50, width: bounds.width, height: bounds.height + height)
-        self.navigationController?.navigationBar.backgroundColor = .white
+    func imageProfileSetup(){
+        let image = UIImage(named: "img")!
+        let imageSize = CGSizeMake(60, 42)
+        let marginX: CGFloat = (self.navigationController!.navigationBar.frame.size.width / 3) - (imageSize.width / 3)
+        let imageView = UIImageView(frame: CGRect(x: marginX, y: 0, width: imageSize.width, height: imageSize.height))
+        imageView.image = image
+        imageView.contentMode = .scaleAspectFit
     }
     
+    func rightBarButtonEdit(){
+        title = "Product"
+        //button.frame = CGRectMake(0,0, 100, 60)
+        rightBarButton.setImage(UIImage(systemName: "cart"), for: .normal)
+        //        button.contentVerticalAlignment = .fill
+        //        button.contentHorizontalAlignment = .fill
+        //        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        rightBarButton.tintColor = .white
+        rightBarButton.backgroundColor = .systemBlue
+        rightBarButton.layer.cornerRadius = 5
+        rightBarButton.addTarget(self, action: #selector(allCartActionButton), for: UIControl.Event.touchUpInside)
+        let barButton = UIBarButtonItem()
+        barButton.customView = rightBarButton
+        self.navigationItem.rightBarButtonItem = barButton
+    }
     
-    
-    //    @IBAction func allCartActionButton(_ sender: UIButton) {
-    //
-    //        let vc = storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
-    //        vc.delegate = self
-    //        vc.selectedItems = addToCart
-    //        self.navigationController?.pushViewController(vc, animated: true)
-    //    }
+    @objc func allCartActionButton() {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
+        vc.delegate = self
+        vc.selectedItems = addToCart
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     func setUpTableView(){
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
@@ -89,6 +102,7 @@ extension ProductListViewController : UITableViewDataSource {
     }
     
     // MARK: UILabel Round
+    
     func badgeLabel() -> UILabel {
         badgeCount.translatesAutoresizingMaskIntoConstraints = false
         badgeCount.layer.cornerRadius = badgeCount.bounds.size.height / 2
@@ -103,34 +117,14 @@ extension ProductListViewController : UITableViewDataSource {
     
     func showBadge() {
         let badge = badgeLabel()
-        allCartButton.addSubview(badge)
+        rightBarButton.addSubview(badge)
         NSLayoutConstraint.activate([
-            badge.leftAnchor.constraint(equalTo: allCartButton.leftAnchor, constant: 34),
-            badge.topAnchor.constraint(equalTo: allCartButton.topAnchor, constant: -1),
+            badge.leftAnchor.constraint(equalTo: rightBarButton.leftAnchor, constant: 20),
+            badge.topAnchor.constraint(equalTo: rightBarButton.topAnchor, constant: -5),
             badge.widthAnchor.constraint(equalToConstant: 20),
             badge.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
-    
-    //MARK: UIImage Round
-    
-    //    func badgeImage() -> UIImageView {
-    //        imageProfile.translatesAutoresizingMaskIntoConstraints = false
-    //        // imageProfile.layer.cornerRadius = badgeCount.bounds.size.height / 2
-    //        imageProfile.backgroundColor = .systemRed
-    //        return imageProfile
-    //    }
-    
-    //    func showBadgeImage() {
-    //        let badge = badgeImage()
-    //        allCartButton.addSubview(badge)
-    //        NSLayoutConstraint.activate([
-    //            badge.rightAnchor.constraint(equalTo: allCartButton.leftAnchor, constant: -20),
-    //            badge.topAnchor.constraint(equalTo: allCartButton.topAnchor, constant: 10),
-    //            badge.widthAnchor.constraint(equalToConstant: 40),
-    //            badge.heightAnchor.constraint(equalToConstant: 40)
-    //        ])
-    //    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
@@ -151,7 +145,7 @@ extension ProductListViewController : UITableViewDataSource {
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { [self](action:UIAlertAction!) in
                 addToCart.append(item)
                 
-                self.allCartButton.pulsate()
+                self.rightBarButton.pulsate()
                 if sender.tag == 0{
                     cartCount += 1
                     AppData.addCart = cartCount
