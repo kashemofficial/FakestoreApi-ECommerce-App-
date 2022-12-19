@@ -40,7 +40,10 @@ class ViewController: UIViewController {
     }
     
     
-    @IBAction func buttonSignInTapped(_ sender: UIButton) {        ValidationCode()
+    @IBAction func buttonSignInTapped(_ sender: UIButton) {
+        
+        ValidationCode()
+        
         if let userName = userNameTextField.text, let passWord = passwordTextField.text {
             
             ProgressHUD.show()

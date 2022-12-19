@@ -16,47 +16,56 @@ class ProductListViewController: UIViewController {
     var allProducts = [ProductModel]()
     var cartCount = 0
     let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    let rightBarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-    //let imageProfile = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-    
+    //let rightBarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 40))
+    //let imageProfileButton = UIButton(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+    let rightBarButton = UIButton.init(type: .custom)
+
     
     override func viewDidLoad(){
         super.viewDidLoad()
         setUpTableView()
         fetchData()
         showBadge()
-        //showBadgeImage()
+    
         rightBarButtonEdit()
-        imageProfileSetup()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.badgeCount.text = String(AppData.addCart)
     }
     
-    func imageProfileSetup(){
-        let image = UIImage(named: "img")!
-        let imageSize = CGSizeMake(60, 42)
-        let marginX: CGFloat = (self.navigationController!.navigationBar.frame.size.width / 3) - (imageSize.width / 3)
-        let imageView = UIImageView(frame: CGRect(x: marginX, y: 0, width: imageSize.width, height: imageSize.height))
-        imageView.image = image
-        imageView.contentMode = .scaleAspectFit
-    }
     
     func rightBarButtonEdit(){
+        
         title = "Product"
-        //button.frame = CGRectMake(0,0, 100, 60)
+        
         rightBarButton.setImage(UIImage(systemName: "cart"), for: .normal)
-        //        button.contentVerticalAlignment = .fill
-        //        button.contentHorizontalAlignment = .fill
-        //        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         rightBarButton.tintColor = .white
         rightBarButton.backgroundColor = .systemBlue
         rightBarButton.layer.cornerRadius = 5
+        rightBarButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        rightBarButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         rightBarButton.addTarget(self, action: #selector(allCartActionButton), for: UIControl.Event.touchUpInside)
-        let barButton = UIBarButtonItem()
-        barButton.customView = rightBarButton
-        self.navigationItem.rightBarButtonItem = barButton
+        let barButton1 = UIBarButtonItem(customView: rightBarButton)
+
+        //MARK: imageView
+    
+        let button = UIButton.init(type: .custom)
+        button.setImage(UIImage(named: "img1"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.masksToBounds = true
+        button.backgroundColor = .clear
+        button.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.layer.cornerRadius = 20
+        //button.frame = CGRectMake(0, 0, 100, 100)
+        let barButton2 = UIBarButtonItem(customView: button)
+                        
+        navigationItem.rightBarButtonItem = barButton1
+        self.navigationItem.setRightBarButtonItems([barButton2,barButton1], animated: true)
+        
+        
     }
     
     @objc func allCartActionButton() {
@@ -65,6 +74,12 @@ class ProductListViewController: UIViewController {
         vc.selectedItems = addToCart
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    
+    @objc func imageProfileActionButton(){
+        print("Click!")
+    }
+    
     
     func setUpTableView(){
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
@@ -119,8 +134,8 @@ extension ProductListViewController : UITableViewDataSource {
         let badge = badgeLabel()
         rightBarButton.addSubview(badge)
         NSLayoutConstraint.activate([
-            badge.leftAnchor.constraint(equalTo: rightBarButton.leftAnchor, constant: 20),
-            badge.topAnchor.constraint(equalTo: rightBarButton.topAnchor, constant: -5),
+            badge.leftAnchor.constraint(equalTo: rightBarButton.leftAnchor, constant: 27),
+            badge.topAnchor.constraint(equalTo: rightBarButton.topAnchor, constant: -2),
             badge.widthAnchor.constraint(equalToConstant: 20),
             badge.heightAnchor.constraint(equalToConstant: 20)
         ])
