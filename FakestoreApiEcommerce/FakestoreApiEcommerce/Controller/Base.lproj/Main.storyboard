@@ -243,10 +243,10 @@
             </objects>
             <point key="canvasLocation" x="793" y="44"/>
         </scene>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="aFD-fl-Hhw">
             <objects>
-                <viewController storyboardIdentifier="ViewController" id="YXW-hk-TVD" customClass="ViewController" customModule="FakestoreApiEcommerce" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="YXW-hk-TVD" customClass="LoginViewController" customModule="FakestoreApiEcommerce" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lws-ue-VFE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -282,7 +282,7 @@
                                             </hierarchicalColors>
                                         </imageReference>
                                     </imageView>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2r3-iI-cv8">
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2r3-iI-cv8">
                                         <rect key="frame" x="35" y="7.3333333333333144" width="309" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="LT8-2u-nzr"/>
@@ -352,7 +352,7 @@
                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="buttonSignInTapped:" destination="YXW-hk-TVD" eventType="touchUpInside" id="m0V-uk-xHR"/>
+                                    <action selector="buttonSignInTapped:" destination="YXW-hk-TVD" eventType="touchUpInside" id="K1t-51-TTT"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -381,10 +381,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="hUq-fP-6Nr"/>
                     <connections>
-                        <outlet property="emailView" destination="QsW-AX-UQd" id="u3z-j1-Rlq"/>
-                        <outlet property="passwordTextField" destination="Urw-fg-RfB" id="j8v-5P-e58"/>
-                        <outlet property="passwordView" destination="RIQ-E9-r25" id="I9u-LB-o0T"/>
-                        <outlet property="userNameTextField" destination="2r3-iI-cv8" id="cid-BE-NY0"/>
+                        <outlet property="emailView" destination="QsW-AX-UQd" id="8of-1z-e2V"/>
+                        <outlet property="passwordTextField" destination="Urw-fg-RfB" id="uSL-nq-3qH"/>
+                        <outlet property="passwordView" destination="RIQ-E9-r25" id="phU-hA-J44"/>
+                        <outlet property="userNameTextField" destination="2r3-iI-cv8" id="jki-Ps-CYl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rSY-WE-aZw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

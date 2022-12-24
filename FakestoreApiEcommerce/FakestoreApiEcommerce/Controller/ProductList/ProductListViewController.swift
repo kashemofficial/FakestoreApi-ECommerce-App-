@@ -18,6 +18,7 @@ class ProductListViewController: UIViewController {
     let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     let cartBarButton = UIButton(type: .custom)
     let profileBarButton = UIButton(type: .custom)
+    let menuBarButton = UIButton(type: .custom)
     
     var signInData = [LoginResponse]()
     
@@ -27,14 +28,34 @@ class ProductListViewController: UIViewController {
         fetchData()
         showBadge()
         rightBarButtonEdit()
+        //leftBarButtonEdit()
         self.badgeCount.text = String(AppData.addCart)
+        self.navigationItem.setHidesBackButton(true, animated: true)
+    }
+
+    //MARK: Left BarButton
+    
+    func leftBarButtonEdit(){
+        menuBarButton.setImage(UIImage(named: "filemenu.and.cursorarrow.rtl"), for: .normal)
+        menuBarButton.backgroundColor = .gray
+        menuBarButton.tintColor = .systemGreen
         
+       // menuBarButton.backgroundColor = .clear
+        //menuBarButton.layer.cornerRadius = 5
+        //menuBarButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+      //  menuBarButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+       //menuBarButton.transform = CGAffineTransformMakeScale(1.2, 1.2)
+        
+        menuBarButton.addTarget(self, action: #selector(MenuBarButtonAction), for: UIControl.Event.touchUpInside)
+        let leftBarButton1 = UIBarButtonItem(customView: menuBarButton)
+        
+        self.navigationItem.setLeftBarButtonItems([leftBarButton1], animated: true)
     }
     
-    func profileImageConfigure(profilePic: LoginResponse) {
-        guard let url = URL(string: profilePic.image!) else {return}
-        profileBarButton.sd_setImage(with: url, for: .normal)
+    @objc func MenuBarButtonAction(){
+        print("click")
     }
+    
     
     //MARK: Right BarButton
     
@@ -113,43 +134,10 @@ class ProductListViewController: UIViewController {
                         //show error alert
                     }
                 }
-               
             }
         }
     }
 }
-
-
-//    func fetchData(){
-//
-//        let url = URL(string: "https://fakestoreapi.com/products")
-//
-//        let dataTask = URLSession.shared.dataTask(with: url!,completionHandler: {
-//            (data,response,error) in
-//
-//            guard let data = data, error == nil else{
-//                return
-//            }
-//
-//            if let string = String(bytes: data, encoding: .utf8) {
-//                print(string)
-//            } else {
-//                print("not a valid UTF-8 sequence")
-//            }
-//
-//            do{
-//                self.allProducts = try JSONDecoder().decode([ProductModel].self,from:data)
-//            }catch{
-//                print("Error")
-//            }
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
-//        })
-//        dataTask.resume()
-//    }
-
-
 
 extension ProductListViewController : UITableViewDataSource {
     
@@ -201,11 +189,9 @@ extension ProductListViewController : UITableViewDataSource {
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { [self](action:UIAlertAction!) in
                 addToCart.append(item)
                 self.cartBarButton.pulsate()
-                if sender.tag == 0{
-                    cartCount += 1
-                    AppData.addCart = cartCount
+                cartCount += 1
+                AppData.addCart = cartCount
                     
-                }
                 self.badgeCount.text! = String(cartCount)
             }))
             
@@ -270,4 +256,46 @@ extension ProductListViewController: CurrentCatNumber {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    func fetchData(){
+//
+//        let url = URL(string: "https://fakestoreapi.com/products")
+//
+//        let dataTask = URLSession.shared.dataTask(with: url!,completionHandler: {
+//            (data,response,error) in
+//
+//            guard let data = data, error == nil else{
+//                return
+//            }
+//
+//            if let string = String(bytes: data, encoding: .utf8) {
+//                print(string)
+//            } else {
+//                print("not a valid UTF-8 sequence")
+//            }
+//
+//            do{
+//                self.allProducts = try JSONDecoder().decode([ProductModel].self,from:data)
+//            }catch{
+//                print("Error")
+//            }
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//        })
+//        dataTask.resume()
+//    }
 

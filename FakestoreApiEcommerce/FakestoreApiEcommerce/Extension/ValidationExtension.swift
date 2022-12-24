@@ -8,6 +8,12 @@
 import Foundation
 
 extension String{
+    
+    func validateUsername() -> Bool {
+        let userRegEx = "\\w{7,18}"
+        return applyPredicateOnRegex(regexStr: userRegEx)
+    }
+    
     func validateEmailId() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
         return applyPredicateOnRegex(regexStr: emailRegEx)

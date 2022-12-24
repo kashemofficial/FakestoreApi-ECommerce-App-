@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             vc = sb.instantiateViewController(identifier: "ProductListViewController")
         }
         else {
-            vc = sb.instantiateViewController(identifier: "ViewController")
+            vc = sb.instantiateViewController(identifier: "LoginViewController")
         }
         
         let navVC = UINavigationController(rootViewController: vc)
