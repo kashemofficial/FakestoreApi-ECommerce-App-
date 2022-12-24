@@ -24,10 +24,10 @@ class ViewController: UIViewController {
         
     }
     
-    func profileImageConfigure(profilePic: LoginResponse) {
-        guard URL(string: profilePic.image!) != nil else {return}
-        
-        }
+//    func profileImageConfigure(profilePic: LoginResponse) {
+//        guard URL(string: profilePic.image!) != nil else {return}
+//
+//        }
     
     func editing(){
         userNameTextField.text = "kminchelle"
@@ -69,11 +69,14 @@ class ViewController: UIViewController {
                         do {
                             let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
                             
-                            if let token = loginResponse.token, let userName = loginResponse.username{
+                            if let _ = loginResponse.token, let _ = loginResponse.username {
                                 Utility.userLoggedIn(true)
                                 
-                                let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
+                                if let profileUrl = loginResponse.image {
+                                    Utility.setUserImage(profileUrl)
+                                }
                                 
+                                let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
                                 self.navigationController?.pushViewController(vc, animated: true)
                                 
                             }
@@ -81,7 +84,7 @@ class ViewController: UIViewController {
                                 //show error alert
                             }
                         }
-                        catch let error {
+                        catch _ {
                             //show error alert
                         }
                     }

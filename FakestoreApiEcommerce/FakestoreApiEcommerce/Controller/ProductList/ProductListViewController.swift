@@ -28,7 +28,7 @@ class ProductListViewController: UIViewController {
         showBadge()
         rightBarButtonEdit()
         self.badgeCount.text = String(AppData.addCart)
-    
+        
     }
     
     func profileImageConfigure(profilePic: LoginResponse) {
@@ -51,12 +51,13 @@ class ProductListViewController: UIViewController {
         cartBarButton.transform = CGAffineTransformMakeScale(1.2, 1.2)
         cartBarButton.addTarget(self, action: #selector(allCartActionButton), for: UIControl.Event.touchUpInside)
         let barButton1 = UIBarButtonItem(customView: cartBarButton)
-
+        
         //MARK: ProfileButton
+     
+        if let profilUrl = Utility.getUserImage(){
+            profileBarButton.sd_setImage(with: URL(string: profilUrl), for: UIControl.State.normal)
+        }
         
-        //profileBarButton.setImage(UIImage(named: "img1"), for: .normal)
-        
-        profileBarButton.sd_setImage(with: URL(string: "https://robohash.org/doloremquesintcorrupti.png"), for: UIControl.State.normal)
         profileBarButton.translatesAutoresizingMaskIntoConstraints = false
         profileBarButton.layer.masksToBounds = true
         profileBarButton.backgroundColor = .clear
@@ -68,11 +69,12 @@ class ProductListViewController: UIViewController {
         profileBarButton.addTarget(self, action: #selector(imageProfileActionButton), for: UIControl.Event.touchUpInside)
         let barButton2 = UIBarButtonItem(customView: profileBarButton)
         
+        
         //MARK: Multiple BarButton space
         
         let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         space.width = -20
-                        
+        
         self.navigationItem.setRightBarButtonItems([barButton2,space,space,barButton1], animated: true)
         
     }
@@ -96,33 +98,58 @@ class ProductListViewController: UIViewController {
     //MARK: fetchData
     
     func fetchData(){
-        let url = URL(string: "https://fakestoreapi.com/products")
-        
-        let dataTask = URLSession.shared.dataTask(with: url!,completionHandler: {
-            (data,response,error) in
+        let service = WebService()
+        service.call(with: "https://fakestoreapi.com/products", httpMethod: "GET", httpBody: nil) { data in
             
-            guard let data = data, error == nil else{
-                return
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                if let data = data {
+                    do {
+                        self.allProducts = try JSONDecoder().decode([ProductModel].self, from: data)
+                        self.tableView.reloadData()
+                    }
+                    catch _ {
+                        //show error alert
+                    }
+                }
+               
             }
-            
-            if let string = String(bytes: data, encoding: .utf8) {
-                print(string)
-            } else {
-                print("not a valid UTF-8 sequence")
-            }
-            
-            do{
-                self.allProducts = try JSONDecoder().decode([ProductModel].self,from:data)
-            }catch{
-                print("Error")
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        })
-        dataTask.resume()
+        }
     }
 }
+
+
+//    func fetchData(){
+//
+//        let url = URL(string: "https://fakestoreapi.com/products")
+//
+//        let dataTask = URLSession.shared.dataTask(with: url!,completionHandler: {
+//            (data,response,error) in
+//
+//            guard let data = data, error == nil else{
+//                return
+//            }
+//
+//            if let string = String(bytes: data, encoding: .utf8) {
+//                print(string)
+//            } else {
+//                print("not a valid UTF-8 sequence")
+//            }
+//
+//            do{
+//                self.allProducts = try JSONDecoder().decode([ProductModel].self,from:data)
+//            }catch{
+//                print("Error")
+//            }
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//        })
+//        dataTask.resume()
+//    }
+
+
 
 extension ProductListViewController : UITableViewDataSource {
     
