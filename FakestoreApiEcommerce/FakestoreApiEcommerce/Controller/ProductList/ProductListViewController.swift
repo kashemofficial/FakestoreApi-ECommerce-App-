@@ -16,55 +16,64 @@ class ProductListViewController: UIViewController {
     var allProducts = [ProductModel]()
     var cartCount = 0
     let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    //let rightBarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 40))
-    //let imageProfileButton = UIButton(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-    let rightBarButton = UIButton.init(type: .custom)
-
+    let cartBarButton = UIButton(type: .custom)
+    let profileBarButton = UIButton(type: .custom)
+    
+    var signInData = [LoginResponse]()
     
     override func viewDidLoad(){
         super.viewDidLoad()
         setUpTableView()
         fetchData()
         showBadge()
-    
         rightBarButtonEdit()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         self.badgeCount.text = String(AppData.addCart)
+    
     }
     
+    func profileImageConfigure(profilePic: LoginResponse) {
+        guard let url = URL(string: profilePic.image!) else {return}
+        profileBarButton.sd_setImage(with: url, for: .normal)
+    }
+    
+    //MARK: Right BarButton
     
     func rightBarButtonEdit(){
         
-        title = "Product"
-        
-        rightBarButton.setImage(UIImage(systemName: "cart"), for: .normal)
-        rightBarButton.tintColor = .white
-        rightBarButton.backgroundColor = .systemBlue
-        rightBarButton.layer.cornerRadius = 5
-        rightBarButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        rightBarButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        rightBarButton.addTarget(self, action: #selector(allCartActionButton), for: UIControl.Event.touchUpInside)
-        let barButton1 = UIBarButtonItem(customView: rightBarButton)
+        navigationItem.title = "Product".uppercased()
+        //MARK: Cart Button
+        cartBarButton.setImage(UIImage(systemName: "cart"), for: .normal)
+        cartBarButton.tintColor = .systemGreen
+        cartBarButton.backgroundColor = .clear
+        cartBarButton.layer.cornerRadius = 5
+        cartBarButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        cartBarButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        cartBarButton.transform = CGAffineTransformMakeScale(1.2, 1.2)
+        cartBarButton.addTarget(self, action: #selector(allCartActionButton), for: UIControl.Event.touchUpInside)
+        let barButton1 = UIBarButtonItem(customView: cartBarButton)
 
-        //MARK: imageView
-    
-        let button = UIButton.init(type: .custom)
-        button.setImage(UIImage(named: "img1"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.masksToBounds = true
-        button.backgroundColor = .clear
-        button.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        button.layer.cornerRadius = 20
-        //button.frame = CGRectMake(0, 0, 100, 100)
-        let barButton2 = UIBarButtonItem(customView: button)
-                        
-        navigationItem.rightBarButtonItem = barButton1
-        self.navigationItem.setRightBarButtonItems([barButton2,barButton1], animated: true)
+        //MARK: ProfileButton
         
+        //profileBarButton.setImage(UIImage(named: "img1"), for: .normal)
+        
+        profileBarButton.sd_setImage(with: URL(string: "https://robohash.org/doloremquesintcorrupti.png"), for: UIControl.State.normal)
+        profileBarButton.translatesAutoresizingMaskIntoConstraints = false
+        profileBarButton.layer.masksToBounds = true
+        profileBarButton.backgroundColor = .clear
+        profileBarButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        profileBarButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        profileBarButton.layer.cornerRadius = 20
+        profileBarButton.layer.borderWidth = 1
+        profileBarButton.layer.borderColor = UIColor.lightGray.cgColor
+        profileBarButton.addTarget(self, action: #selector(imageProfileActionButton), for: UIControl.Event.touchUpInside)
+        let barButton2 = UIBarButtonItem(customView: profileBarButton)
+        
+        //MARK: Multiple BarButton space
+        
+        let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        space.width = -20
+                        
+        self.navigationItem.setRightBarButtonItems([barButton2,space,space,barButton1], animated: true)
         
     }
     
@@ -75,11 +84,9 @@ class ProductListViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    
     @objc func imageProfileActionButton(){
         print("Click!")
     }
-    
     
     func setUpTableView(){
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
@@ -97,6 +104,13 @@ class ProductListViewController: UIViewController {
             guard let data = data, error == nil else{
                 return
             }
+            
+            if let string = String(bytes: data, encoding: .utf8) {
+                print(string)
+            } else {
+                print("not a valid UTF-8 sequence")
+            }
+            
             do{
                 self.allProducts = try JSONDecoder().decode([ProductModel].self,from:data)
             }catch{
@@ -132,10 +146,10 @@ extension ProductListViewController : UITableViewDataSource {
     
     func showBadge() {
         let badge = badgeLabel()
-        rightBarButton.addSubview(badge)
+        cartBarButton.addSubview(badge)
         NSLayoutConstraint.activate([
-            badge.leftAnchor.constraint(equalTo: rightBarButton.leftAnchor, constant: 27),
-            badge.topAnchor.constraint(equalTo: rightBarButton.topAnchor, constant: -2),
+            badge.leftAnchor.constraint(equalTo: cartBarButton.leftAnchor, constant: 27),
+            badge.topAnchor.constraint(equalTo: cartBarButton.topAnchor, constant: -2),
             badge.widthAnchor.constraint(equalToConstant: 20),
             badge.heightAnchor.constraint(equalToConstant: 20)
         ])
@@ -159,8 +173,7 @@ extension ProductListViewController : UITableViewDataSource {
             let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { [self](action:UIAlertAction!) in
                 addToCart.append(item)
-                
-                self.rightBarButton.pulsate()
+                self.cartBarButton.pulsate()
                 if sender.tag == 0{
                     cartCount += 1
                     AppData.addCart = cartCount

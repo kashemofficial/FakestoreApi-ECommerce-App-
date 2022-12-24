@@ -14,13 +14,20 @@ class ViewController: UIViewController {
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
     
-    var signInData = [LoginResponse]()
-    let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+    // let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+    
+   // var signInData = [LoginResponse]()
     
     override func viewDidLoad(){
         super.viewDidLoad()
         editing()
+        
     }
+    
+    func profileImageConfigure(profilePic: LoginResponse) {
+        guard URL(string: profilePic.image!) != nil else {return}
+        
+        }
     
     func editing(){
         userNameTextField.text = "kminchelle"
@@ -38,7 +45,6 @@ class ViewController: UIViewController {
         passwordView.layer.shadowOffset = .zero
         passwordView.layer.shadowRadius = 5
     }
-    
     
     @IBAction func buttonSignInTapped(_ sender: UIButton) {
         
@@ -63,11 +69,13 @@ class ViewController: UIViewController {
                         do {
                             let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
                             
-                            if let token = loginResponse.token, let userName = loginResponse.username {
+                            if let token = loginResponse.token, let userName = loginResponse.username{
                                 Utility.userLoggedIn(true)
                                 
                                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
+                                
                                 self.navigationController?.pushViewController(vc, animated: true)
+                                
                             }
                             else {
                                 //show error alert
@@ -117,9 +125,6 @@ extension ViewController{
         }
     }
 }
-
-
-
 
 
 
