@@ -19,8 +19,11 @@ class ProductListViewController: UIViewController {
     let cartBarButton = UIButton(type: .custom)
     let profileBarButton = UIButton(type: .custom)
     let menuBarButton = UIButton(type: .custom)
+    var isSlideInMenuPresented = false
+    lazy var slideInMenuPadding: CGFloat = self.view.frame.width * 0.30
     
-    var signInData = [LoginResponse]()
+    
+    
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -28,7 +31,7 @@ class ProductListViewController: UIViewController {
         fetchData()
         showBadge()
         rightBarButtonEdit()
-        //leftBarButtonEdit()
+        leftBarButtonEdit()
         self.badgeCount.text = String(AppData.addCart)
         self.navigationItem.setHidesBackButton(true, animated: true)
     }
@@ -36,31 +39,47 @@ class ProductListViewController: UIViewController {
     //MARK: Left BarButton
     
     func leftBarButtonEdit(){
-        menuBarButton.setImage(UIImage(named: "filemenu.and.cursorarrow.rtl"), for: .normal)
-        menuBarButton.backgroundColor = .gray
+        menuBarButton.backgroundColor = .clear
+        menuBarButton.setImage(UIImage(systemName: "text.justify"), for: .normal)
+        menuBarButton.translatesAutoresizingMaskIntoConstraints = false
+        menuBarButton.layer.masksToBounds = true
+        menuBarButton.backgroundColor = .clear
+        menuBarButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        menuBarButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        menuBarButton.transform = CGAffineTransformMakeScale(1.6, 1.6)
         menuBarButton.tintColor = .systemGreen
-        
-       // menuBarButton.backgroundColor = .clear
-        //menuBarButton.layer.cornerRadius = 5
-        //menuBarButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-      //  menuBarButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-       //menuBarButton.transform = CGAffineTransformMakeScale(1.2, 1.2)
-        
         menuBarButton.addTarget(self, action: #selector(MenuBarButtonAction), for: UIControl.Event.touchUpInside)
+        menuView.pinMenuTo(view, with: slideInMenuPadding)
+        containerView.edgeTo(view)
         let leftBarButton1 = UIBarButtonItem(customView: menuBarButton)
         
-        self.navigationItem.setLeftBarButtonItems([leftBarButton1], animated: true)
+        self.navigationItem.setLeftBarButtonItems([leftBarButton1], animated: false)
     }
     
     @objc func MenuBarButtonAction(){
-        print("click")
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut) {
+            self.containerView.frame.origin.x = self.isSlideInMenuPresented ? 0 : self.containerView.frame.width - self.slideInMenuPadding
+        } completion: { (finished) in
+            print("Animation finished: \(finished)")
+            self.isSlideInMenuPresented.toggle()
+        }
     }
     
+    lazy var menuView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray5
+        return view
+    }()
     
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        return view
+    }()
+
     //MARK: Right BarButton
     
     func rightBarButtonEdit(){
-        
         navigationItem.title = "Product".uppercased()
         //MARK: Cart Button
         cartBarButton.setImage(UIImage(systemName: "cart"), for: .normal)
@@ -90,14 +109,13 @@ class ProductListViewController: UIViewController {
         profileBarButton.addTarget(self, action: #selector(imageProfileActionButton), for: UIControl.Event.touchUpInside)
         let barButton2 = UIBarButtonItem(customView: profileBarButton)
         
-        
         //MARK: Multiple BarButton space
         
         let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         space.width = -20
-        
+
         self.navigationItem.setRightBarButtonItems([barButton2,space,space,barButton1], animated: true)
-        
+    
     }
     
     @objc func allCartActionButton() {
@@ -253,6 +271,29 @@ extension ProductListViewController: CurrentCatNumber {
         self.badgeCount.text = String(AppData.addCart)
     }
 }
+
+//MARK: SideMenu UIView
+
+public extension UIView {
+    func edgeTo(_ view: UIView) {
+        view.addSubview(self)
+        translatesAutoresizingMaskIntoConstraints = false
+        topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func pinMenuTo(_ view: UIView, with constant: CGFloat) {
+        view.addSubview(self)
+        translatesAutoresizingMaskIntoConstraints = false
+        topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constant).isActive = true
+        bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+}
+
 
 
 
