@@ -19,6 +19,8 @@ class Utility : NSObject{
         UserDefaults.standard.synchronize()
     }
     
+    //getUserImage
+    
     static func getUserImage()->String? {
        return UserDefaults.standard.string(forKey: "USER_IMAGE")
     }
@@ -27,5 +29,27 @@ class Utility : NSObject{
         UserDefaults.standard.set(url, forKey: "USER_IMAGE")
         UserDefaults.standard.synchronize()
     }
+    
+    //getUserName
+    
+    static func getUserName()-> String? {
+        return UserDefaults.standard.string(forKey: "USER_NAME")
+    }
+    
+    static func setUserName(_ url: String){
+        UserDefaults.standard.set(url, forKey: "USER_NAME")
+        UserDefaults.standard.synchronize()
+    }
+    
+    
+    static func isUserLogoutIn()-> Bool{
+        return UserDefaults.standard.bool(forKey: "USER_LOGOUT")
+    }
+    
+    static func userLogout(_ logout: Bool){
+        UserDefaults.standard.set(logout, forKey: "USER_LOGOUT")
+        UserDefaults.standard.synchronize()
+    }
+    
     
 }

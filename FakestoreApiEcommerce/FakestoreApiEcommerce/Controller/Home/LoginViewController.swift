@@ -13,11 +13,12 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
+    //let loginResponse = [LoginResponse]()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         editing()
-        
     }
     
     func editing(){
@@ -65,8 +66,16 @@ class LoginViewController: UIViewController {
                                 
                                 if let profileUrl = loginResponse.image {
                                     Utility.setUserImage(profileUrl)
+                                    
+                                    print(profileUrl)
                                 }
                                 
+                                if let profileName = loginResponse.maidenName{
+                                    Utility.setUserName(profileName)
+                                    print(profileName)
+                                }
+                                
+                            
                                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
                                 self.navigationController?.pushViewController(vc, animated: true)
                                 
@@ -138,8 +147,6 @@ extension LoginViewController{
         }
     }
 
-    
-    
     
     
     

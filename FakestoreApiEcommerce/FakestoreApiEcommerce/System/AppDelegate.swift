@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             vc = sb.instantiateViewController(identifier: "LoginViewController")
         }
         
+        
+        
         let navVC = UINavigationController(rootViewController: vc)
         
         window = UIWindow.init(frame: UIScreen.main.bounds)
@@ -33,5 +35,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    func logout(){
+        let sb = UIStoryboard.init(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(identifier: "LoginViewController")
+
+        let navVC = UINavigationController(rootViewController: vc)
+        window?.rootViewController = navVC
+    }
+    
 }
+
+
 

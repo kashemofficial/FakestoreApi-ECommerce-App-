@@ -8,14 +8,24 @@
 import UIKit
 
 class SideMenuTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var sideMenuImageView: UIImageView!
     @IBOutlet weak var sideMenuLabel: UILabel!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+//        // Background
+//        self.backgroundColor = .clear
+//
+//        // Icon
+        
+       self.sideMenuImageView.tintColor = .white
+//
+//        // Title
+//        self.sideMenuLabel.textColor = .white
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

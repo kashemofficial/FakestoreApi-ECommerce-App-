@@ -44,12 +44,11 @@ class WebService {
                 
             completion(data)
             
-            
-//            if let string = String(bytes: data!, encoding: .utf8) {
-//                print(string)
-//            } else {
-//                print("not a valid UTF-8 sequence")
-//            }
+            if let string = String(bytes: data!, encoding: .utf8) {
+                print(string)
+            } else {
+                print("not a valid UTF-8 sequence")
+            }
             
         }
         

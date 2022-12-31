@@ -11,5 +11,8 @@ struct LoginResponse: Codable {
     let username: String?
     let image: String?
     let token: String?
+    let maidenName: String?
+    let birthDate: String?
+    let phone: String?
     
 }
