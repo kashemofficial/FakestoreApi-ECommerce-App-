@@ -24,8 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             vc = sb.instantiateViewController(identifier: "LoginViewController")
         }
         
-        
-        
         let navVC = UINavigationController(rootViewController: vc)
         
         window = UIWindow.init(frame: UIScreen.main.bounds)

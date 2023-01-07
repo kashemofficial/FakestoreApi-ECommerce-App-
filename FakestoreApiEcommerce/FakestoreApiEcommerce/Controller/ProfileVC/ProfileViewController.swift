@@ -9,7 +9,6 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileUserName: UILabel!
     @IBOutlet weak var profileUserBirthDate: UILabel!
@@ -23,13 +22,10 @@ class ProfileViewController: UIViewController {
         
         profileSetUp()
     }
-    
-    
     func profileSetUp(){
 //        profileUserName.text = loginResponse.maidenName?.description
 //        profileUserBirthDate.text = loginResponse[0].birthDate
 //        profileUserPhone.text = loginResponse[0].phone
-//
         
         profileImageView.layer.cornerRadius = profileImageView.frame.width/2
         profileImageView.layer.borderWidth = 1
@@ -42,18 +38,15 @@ class ProfileViewController: UIViewController {
             self.profileUserName.text = profileNameUrl
         }
         
-        
-        
     }
-    
     
     func leftBarButtonEdit(){
         title = "Profile"
-        leftButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        leftButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         leftButton.contentVerticalAlignment = .fill
         leftButton.contentHorizontalAlignment = .fill
-        leftButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        leftButton.tintColor = .black
+        leftButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 15)
+        leftButton.tintColor = .orange
         leftButton.addTarget(self, action: #selector(backButtonAction), for: UIControl.Event.touchUpInside)
         let leftBarButton = UIBarButtonItem()
         leftBarButton.customView = leftButton

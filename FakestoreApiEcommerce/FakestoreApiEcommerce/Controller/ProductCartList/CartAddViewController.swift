@@ -27,11 +27,12 @@ class CartAddViewController: UIViewController {
     
     func leftBarButtonEdit(){
         title = "All Cart List"
-        leftButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        leftButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         leftButton.contentVerticalAlignment = .fill
         leftButton.contentHorizontalAlignment = .fill
-        leftButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        leftButton.tintColor = .black
+        leftButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 15)
+    
+        leftButton.tintColor = .orange
         leftButton.addTarget(self, action: #selector(backButtonAction), for: UIControl.Event.touchUpInside)
         let leftBarButton = UIBarButtonItem()
         leftBarButton.customView = leftButton

@@ -20,29 +20,8 @@ class ProductListViewController: UIViewController {
     let cartBarButton = UIButton(type: .custom)
     let profileBarButton = UIButton(type: .custom)
     let menuBarButton = UIButton(type: .custom)
+    let transition = SlideTransitions()
     
-    var sideBarView: UIView!
-    var sideBarTableView = UITableView()
-    var topLabel = UILabel()
-    var bottomView = UIView()
-    var logOutButton = UIButton()
-    var nameLabel = UILabel()
-    var imageView = UIImageView()
-    var topHeight_navigationBar_statusBar:CGFloat = 0.0
-    var isEnableSideBarView:Bool = false
-    
-    var swipeToRight = UISwipeGestureRecognizer()
-    var swipeToLeft = UISwipeGestureRecognizer()
-    var tempView = UIView()
-    var tapGesture = UITapGestureRecognizer()
-    
-    var sideMenuData:[SideMenuModel] = [
-        SideMenuModel(icon: UIImage(systemName: "cube.box")!, title:"Products"),
-        SideMenuModel(icon: UIImage(systemName: "person")!, title: "Profile"),
-        SideMenuModel(icon: UIImage(systemName: "cart")!, title: "Carts"),
-        SideMenuModel(icon: UIImage(systemName: "dollarsign")!, title: "Payment")
-        
-    ]
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -55,8 +34,6 @@ class ProductListViewController: UIViewController {
         self.navigationItem.setHidesBackButton(true, animated: true)
         
         leftBarButtonEdit()
-        loadSideBarViewFunctionality()
-        loadGesturefunctionality()
         self.view.backgroundColor = .systemGray6
         
     }
@@ -64,238 +41,29 @@ class ProductListViewController: UIViewController {
     //MARK: Left BarButton
     
     func leftBarButtonEdit(){
-        menuBarButton.setImage(UIImage(systemName: "text.justify"), for: .normal)
+        menuBarButton.setImage(UIImage(systemName: "line.horizontal.3"), for: .normal)
         menuBarButton.translatesAutoresizingMaskIntoConstraints = false
         menuBarButton.layer.masksToBounds = true
         menuBarButton.backgroundColor = .clear
         menuBarButton.tintColor = UIColor(cgColor:  CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
         menuBarButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         menuBarButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        menuBarButton.transform = CGAffineTransformMakeScale(1.6, 1.6)
-        //menuBarButton.tintColor = .systemGreen
-        menuBarButton.addTarget(self, action: #selector(MenuBarButtonAction), for: UIControl.Event.touchUpInside)
+        menuBarButton.transform = CGAffineTransformMakeScale(1.7, 1.9)
+        menuBarButton.addTarget(self, action: #selector(sideMenuActionButton), for: UIControl.Event.touchUpInside)
         let leftBarButton1 = UIBarButtonItem(customView: menuBarButton)
         self.navigationItem.setLeftBarButtonItems([leftBarButton1], animated: false)
         
     }
     
-    //MARK: load SideBar View Functionality
-    
-    func loadSideBarViewFunctionality(){
-        // topHeight_navigationBar_statusBar = UIApplication.shared.statusBarFrame.height + (navigationController?.navigationBar.frame.height)!
-        
-        tempView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
-        tempView.backgroundColor = .lightGray
-        tempView.alpha = 0
-        
-        sideBarView = UIView(frame: CGRect(x: -self.view.bounds.width/1.5, y: topHeight_navigationBar_statusBar, width: self.view.bounds.width/1.5, height: self.view.bounds.height - topHeight_navigationBar_statusBar))
-        
-        sideBarTableView.backgroundColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-        sideBarTableView.delegate = self
-        sideBarTableView.dataSource = self
-        sideBarTableView.register(UINib(nibName: "SideMenuTableViewCell", bundle: nil), forCellReuseIdentifier: "sideBarCell")
-        sideBarTableView.separatorStyle = .none
-        sideBarTableView.bounces = false
-        
-        
-        topLabel.text = "EPS(Easy Payment System)"
-        topLabel.textAlignment = .center
-        topLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
-        
-        topLabel.textColor = UIColor.white
-        topLabel.backgroundColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-        
-        bottomView.backgroundColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-        
-        logOutButton.setTitle("Log Out", for: .normal)
-        logOutButton.backgroundColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-        logOutButton.titleLabel?.textColor = UIColor.white
-        logOutButton.titleLabel?.font = UIFont(name: "Chalkboard SE", size: 20)
-        logOutButton.addTarget(self, action: #selector(logOutEveryThing), for: UIControl.Event.touchUpInside)
-        
-        
-        nameLabel.numberOfLines = 0
-        nameLabel.text = "MD Abul kashem"
-        nameLabel.textColor = UIColor.white
-        nameLabel.textAlignment = NSTextAlignment.center
-        nameLabel.backgroundColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-        
-        
-        
-        if let imageUrl = Utility.getUserImage(){
-            imageView.sd_setImage(with: URL(string: imageUrl))
-        }
-        
-        //imageview.image = UIImage(imageLiteralResourceName: "img1")
-        self.imageView.clipsToBounds = true
-        self.imageView.layer.borderWidth = 1
-        self.imageView.layer.borderColor = UIColor.white.cgColor
-        
-        self.view.addSubview(tempView)
-        self.view.addSubview(sideBarView)
-        self.sideBarView.addSubview(topLabel)
-        self.sideBarView.addSubview(bottomView)
-        self.sideBarView.addSubview(sideBarTableView)
-        
-        self.bottomView.addSubview(logOutButton)
-        self.bottomView.addSubview(nameLabel)
-        self.bottomView.addSubview(imageView)
-        
-        setUpSideBarViewConstraints()
-        setUpBottomViewConstraints()
-    }
-    
-    //MARK: LogoutButton
-    
-    @objc func logOutEveryThing(){
-        let app = UIApplication.shared.delegate as! AppDelegate
-        app.logout()
-    }
-    // MARK: loadGesturefunctionality
-    
-    func loadGesturefunctionality(){
-        swipeToRight = UISwipeGestureRecognizer(target: self, action: #selector(swipedToRight))
-        swipeToRight.direction = .right
-        self.view.addGestureRecognizer(swipeToRight)
-        
-        swipeToLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipedToLeft))
-        swipeToLeft.direction = .left
-        
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeSideBarView))
-        tempView.addGestureRecognizer(tapGesture)
-    }
-    
-    func setUpBottomViewConstraints(){
-        logOutButton.translatesAutoresizingMaskIntoConstraints = false
-        logOutButton.leadingAnchor.constraint(equalTo: self.bottomView.leadingAnchor, constant: 20).isActive = true
-        //        logOutBtn.trailingAnchor.constraint(equalTo: self.imageview.leadingAnchor, constant: -20).isActive = true
-        logOutButton.topAnchor.constraint(equalTo: self.bottomView.topAnchor, constant: 15).isActive = true
-        logOutButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.leadingAnchor.constraint(equalTo: self.bottomView.leadingAnchor, constant: 20).isActive = true
-        //        nameLbl.trailingAnchor.constraint(equalTo: self.imageview.leadingAnchor, constant: -20).isActive = true
-        nameLabel.bottomAnchor.constraint(equalTo: self.bottomView.bottomAnchor, constant: -15).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: self.logOutButton.bottomAnchor, constant: 0).isActive = true
-        
-//        imageview.translatesAutoresizingMaskIntoConstraints = false
-//        imageview.topAnchor.constraint(equalTo: self.bottomView.topAnchor, constant: 20).isActive = true
-//        imageview.trailingAnchor.constraint(equalTo: self.bottomView.trailingAnchor, constant: -20).isActive = true
-//        imageview.bottomAnchor.constraint(equalTo: self.bottomView.bottomAnchor, constant: -20).isActive = true
-//        imageview.widthAnchor.constraint(equalToConstant: 50).isActive = true
-    }
-    
-    //MARK: setUp SideBar ViewConstraints
-    
-    func setUpSideBarViewConstraints(){
-        topLabel.translatesAutoresizingMaskIntoConstraints = false
-        topLabel.leadingAnchor.constraint(equalTo: self.sideBarView.leadingAnchor, constant: 0).isActive = true
-        topLabel.trailingAnchor.constraint(equalTo: self.sideBarView.trailingAnchor, constant: 0).isActive = true
-        topLabel.topAnchor.constraint(equalTo: self.sideBarView.topAnchor, constant: 0).isActive = true
-        topLabel.heightAnchor.constraint(equalToConstant: 187).isActive = true
-        
-        sideBarTableView.translatesAutoresizingMaskIntoConstraints = false
-        sideBarTableView.leadingAnchor.constraint(equalTo: self.sideBarView.leadingAnchor, constant: 0).isActive = true
-        sideBarTableView.trailingAnchor.constraint(equalTo: self.sideBarView.trailingAnchor, constant: 0).isActive = true
-        sideBarTableView.topAnchor.constraint(equalTo: self.topLabel.bottomAnchor, constant: 0).isActive = true
-        sideBarTableView.bottomAnchor.constraint(equalTo: self.bottomView.topAnchor, constant: 0).isActive = true
-        
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.leadingAnchor.constraint(equalTo: self.sideBarView.leadingAnchor, constant: 0).isActive = true
-        bottomView.trailingAnchor.constraint(equalTo: self.sideBarView.trailingAnchor, constant: 0).isActive = true
-        bottomView.bottomAnchor.constraint(equalTo: self.sideBarView.bottomAnchor, constant: 0).isActive = true
-        bottomView.heightAnchor.constraint(equalToConstant: 90).isActive = true
-    }
-    
-    //MARK: CloseSideBarView
-    
-    @objc func closeSideBarView(){
-        print("tapGesture")
-        self.view.addGestureRecognizer(swipeToRight)
-        self.view.removeGestureRecognizer(swipeToLeft)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {
-            self.sideBarView.frame = CGRect(x: -self.view.bounds.width/1.5, y: self.topHeight_navigationBar_statusBar, width: self.view.bounds.width/1.5, height: self.view.bounds.height - self.topHeight_navigationBar_statusBar)
-            
-            for alpha in (0...5).reversed(){
-                self.tempView.alpha = CGFloat(alpha/10)
-            }
-        }, completion: nil)
-        isEnableSideBarView = false
-    }
-    
-    //MARK: Swiped To Left
-    
-    @objc func swipedToLeft(){
-        self.view.addGestureRecognizer(swipeToRight)
-        self.view.removeGestureRecognizer(swipeToLeft)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {
-            self.sideBarView.frame = CGRect(x: -self.view.bounds.width/1.5, y: self.topHeight_navigationBar_statusBar, width: self.view.bounds.width/1.5, height: self.view.bounds.height - self.topHeight_navigationBar_statusBar)
-            
-            for alpha in (0...5).reversed(){
-                self.tempView.alpha = CGFloat(alpha/10)
-            }
-            
-        }, completion: nil)
-        isEnableSideBarView = false
-    }
-    
-    //MARK: Swiped To Right
-    
-    @objc func swipedToRight(){
-        self.imageView.layer.cornerRadius = self.imageView.frame.size.height/2
-        self.view.addGestureRecognizer(swipeToLeft)
-        self.view.removeGestureRecognizer(swipeToRight)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {
-            self.sideBarView.frame = CGRect(x: 0, y: self.topHeight_navigationBar_statusBar, width: self.view.bounds.width/1.5, height: self.view.bounds.height - self.topHeight_navigationBar_statusBar)
-            
-            //            for alpha in (0...5){
-            //                self.tempview.alpha = CGFloat(alpha/10)
-            //            }
-            
-            self.tempView.alpha = 0.5
-        }, completion: nil)
-        isEnableSideBarView = true
-    }
-    
     //MARK: SideMenu Bar Button Action
     
-    @objc func MenuBarButtonAction(){
-        print("MenuBar Click!")
-        self.imageView.layer.cornerRadius = self.imageView.frame.size.height/2
-        
-        if isEnableSideBarView{
-            self.view.addGestureRecognizer(swipeToRight)
-            self.view.removeGestureRecognizer(swipeToLeft)
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {
-                self.sideBarView.frame = CGRect(x: -self.view.bounds.width/1.5, y: self.topHeight_navigationBar_statusBar, width: self.view.bounds.width/1.5, height: self.view.bounds.height - self.topHeight_navigationBar_statusBar)
-                
-                //                for alpha in (0...5).reversed(){
-                //                    self.tempview.alpha = CGFloat(alpha/10)
-                //                }
-                
-            }, completion: nil)
-            
-            isEnableSideBarView = false
-            
-        }else{
-            self.view.addGestureRecognizer(swipeToLeft)
-            self.view.removeGestureRecognizer(swipeToRight)
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
-                self.sideBarView.frame = CGRect(x: 0, y: self.topHeight_navigationBar_statusBar, width: self.view.bounds.width/1.5, height: self.view.bounds.height - self.topHeight_navigationBar_statusBar)
-                
-                //                for alpha in (0...5){
-                //                    self.tempview.alpha = CGFloat(alpha/10)
-                //                }
-                
-                self.tempView.alpha = 0.5
-            }, completion: nil)
-            
-            isEnableSideBarView = true
-        }
+    @objc func sideMenuActionButton(){
+        guard let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenuViewController")else{return}
+        sideMenuViewController.modalPresentationStyle = .overCurrentContext
+        sideMenuViewController.transitioningDelegate = self
+        present(sideMenuViewController, animated: true)
     }
-    
+
     //MARK: Right BarButton
     
     func rightBarButtonEdit(){
@@ -306,7 +74,7 @@ class ProductListViewController: UIViewController {
         cartBarButton.tintColor = UIColor(cgColor:  CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
         cartBarButton.backgroundColor = .clear
         cartBarButton.layer.cornerRadius = 5
-        cartBarButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        cartBarButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         cartBarButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         cartBarButton.transform = CGAffineTransformMakeScale(1.2, 1.2)
         cartBarButton.addTarget(self, action: #selector(allCartActionButton), for: UIControl.Event.touchUpInside)
@@ -343,6 +111,9 @@ class ProductListViewController: UIViewController {
     
     @objc func imageProfileActionButton(){
         print("Click!")
+        let profileVC = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+        self.navigationController?.pushViewController(profileVC, animated: true)
+        
     }
     
     func setUpTableView(){
@@ -376,11 +147,7 @@ class ProductListViewController: UIViewController {
 extension ProductListViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == productTableView {
-            return allProducts.count
-        }else{
-            return sideMenuData.count
-        }
+        return allProducts.count
     }
     
     // MARK: UILabel Round
@@ -401,27 +168,20 @@ extension ProductListViewController : UITableViewDataSource {
         let badge = badgeLabel()
         cartBarButton.addSubview(badge)
         NSLayoutConstraint.activate([
-            badge.leftAnchor.constraint(equalTo: cartBarButton.leftAnchor, constant: 27),
-            badge.topAnchor.constraint(equalTo: cartBarButton.topAnchor, constant: -2),
+            badge.leftAnchor.constraint(equalTo: cartBarButton.leftAnchor, constant: 25),
+            badge.topAnchor.constraint(equalTo: cartBarButton.topAnchor, constant: -1),
             badge.widthAnchor.constraint(equalToConstant: 20),
             badge.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == productTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
-            cell.configure(product: allProducts[indexPath.row])
-            cell.addToCart.addTarget(self, action: #selector(selectedItem), for: .touchUpInside)
-            AppData.addProduct = addToCart.description
-            return cell
-        }
-        else{
-            let cell1 = tableView.dequeueReusableCell(withIdentifier: "sideBarCell", for: indexPath)as! SideMenuTableViewCell
-            cell1.sideMenuImageView.image = self.sideMenuData[indexPath.row].icon
-            cell1.sideMenuLabel.text = self.sideMenuData[indexPath.row].title
-            return cell1
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
+        cell.configure(product: allProducts[indexPath.row])
+        cell.addToCart.addTarget(self, action: #selector(selectedItem), for: .touchUpInside)
+        AppData.addProduct = addToCart.description
+        return cell
+        
     }
     
     //MARK: selectCartItem
@@ -437,7 +197,6 @@ extension ProductListViewController : UITableViewDataSource {
                 self.cartBarButton.pulsate()
                 cartCount += 1
                 AppData.addCart = cartCount
-                
                 self.badgeCount.text! = String(cartCount)
             }))
             
@@ -451,66 +210,14 @@ extension ProductListViewController : UITableViewDataSource {
 extension ProductListViewController : UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == productTableView {
-            let storyboradName = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboradName.instantiateViewController(withIdentifier: "ProductsDetailsViewController") as! ProductsDetailsViewController
-            vc.pImage = allProducts[indexPath.row].image!
-            vc.pTitle = allProducts[indexPath.row].title!
-            vc.pDescription = allProducts[indexPath.row].welcomeDescription ?? ""
-            vc.pCategory = (allProducts[indexPath.row].category!.rawValue)
-            vc.pPrice = "$" + String((allProducts[indexPath.row].price!))
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        else{
-            let cell = tableView.cellForRow(at: indexPath)as! SideMenuTableViewCell
-            switch indexPath.row {
-                
-            case 0:
-                let productVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
-                self.navigationController?.pushViewController(productVC, animated: true)
-                cell.sideMenuImageView.tintColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-                cell.sideMenuLabel.textColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-                cell.contentView.backgroundColor = UIColor.white
-                
-            case 1:
-                let profileVC = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                self.navigationController?.pushViewController(profileVC, animated: true)
-                cell.sideMenuImageView.tintColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-                cell.sideMenuLabel.textColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-                cell.contentView.backgroundColor = UIColor.white
-                
-            case 2:
-                let cartsVC = self.storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
-                self.navigationController?.pushViewController(cartsVC, animated: true)
-                cell.sideMenuImageView.tintColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-                cell.sideMenuLabel.textColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-                cell.contentView.backgroundColor = UIColor.white
-                
-            default:
-                let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentViewController") as! PaymentViewController
-                self.navigationController?.pushViewController(paymentVC, animated: true)
-                cell.sideMenuImageView.tintColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-                cell.sideMenuLabel.textColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-                cell.contentView.backgroundColor = UIColor.white
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if tableView == sideBarTableView {
-            let cell = tableView.cellForRow(at: indexPath)as! SideMenuTableViewCell
-            cell.sideMenuImageView.tintColor = .white
-            cell.sideMenuLabel.textColor = .white
-            cell.contentView.backgroundColor = UIColor(cgColor: CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == productTableView {
-            return 194
-        }else{
-            return 60
-        }
+        let storyboradName = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboradName.instantiateViewController(withIdentifier: "ProductsDetailsViewController") as! ProductsDetailsViewController
+        vc.pImage = allProducts[indexPath.row].image!
+        vc.pTitle = allProducts[indexPath.row].title!
+        vc.pDescription = allProducts[indexPath.row].welcomeDescription ?? ""
+        vc.pCategory = (allProducts[indexPath.row].category!.rawValue)
+        vc.pPrice = "$" + String((allProducts[indexPath.row].price!))
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK: 3D CAnimation
@@ -551,43 +258,16 @@ extension ProductListViewController: CurrentCatNumber {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-//    func fetchData(){
-//
-//        let url = URL(string: "https://fakestoreapi.com/products")
-//
-//        let dataTask = URLSession.shared.dataTask(with: url!,completionHandler: {
-//            (data,response,error) in
-//
-//            guard let data = data, error == nil else{
-//                return
-//            }
-//
-//            if let string = String(bytes: data, encoding: .utf8) {
-//                print(string)
-//            } else {
-//                print("not a valid UTF-8 sequence")
-//            }
-//
-//            do{
-//                self.allProducts = try JSONDecoder().decode([ProductModel].self,from:data)
-//            }catch{
-//                print("Error")
-//            }
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
-//        })
-//        dataTask.resume()
-//    }
-
+extension ProductListViewController: UIViewControllerTransitioningDelegate{
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.isPresenting = true
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.isPresenting = false
+        return transition
+    }
+    
+    
+}
