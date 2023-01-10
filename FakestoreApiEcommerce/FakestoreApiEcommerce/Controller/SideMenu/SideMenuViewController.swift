@@ -33,7 +33,6 @@ class SideMenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.sideMenuTableView.backgroundColor = .lightGray
         sideMenuTableViewSetup()
         headerProfile()
     }
@@ -65,15 +64,14 @@ class SideMenuViewController: UIViewController {
         
     }
     
-    
     @IBAction func logOutButtonAction(_ sender: UIButton) {
         logOutEveryThing()
     }
     
     func headerProfile(){
         headerProfileImage.layer.cornerRadius = headerProfileImage.frame.width/2
-        headerProfileImage.layer.borderWidth = 1
-        headerProfileImage.layer.borderColor = CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1)
+        headerProfileImage.layer.borderWidth = 2
+        headerProfileImage.layer.borderColor = CGColor(red: 1, green: 1, blue: 1, alpha: 1)
         if let profilUrl = Utility.getUserImage(){
             headerProfileImage.sd_setImage(with: URL(string: profilUrl))
         }
