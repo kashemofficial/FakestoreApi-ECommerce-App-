@@ -7,11 +7,22 @@
 
 import UIKit
 
+protocol SlideMenuDelegate {
+    func slideMenuItemSelectedAtIndex(_ index : Int32)
+}
+
 class SideMenuViewController: UIViewController {
     
     @IBOutlet weak var headerProfileImage: UIImageView!
     @IBOutlet weak var headerProfileName: UILabel!
     @IBOutlet weak var sideMenuTableView: UITableView!
+    @IBOutlet weak var sideMenuButton: UIButton!
+    
+    var btnMenu : UIButton!
+    
+    //Delegate of the MenuVC
+    
+    var delegate : SlideMenuDelegate?
     
     var sideMenuData:[SideMenuModel] = [
         SideMenuModel(icon: UIImage(systemName: "cube.box")!, title:"Products"),
@@ -27,6 +38,38 @@ class SideMenuViewController: UIViewController {
         headerProfile()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
+    
+    @IBAction func onClickSideMenuClose(_ button: UIButton) {
+        btnMenu.tag = 1
+        
+        if (self.delegate != nil) {
+            var index = Int32(button.tag)
+            if(button == self.sideMenuButton){
+                index = -1
+            }
+            delegate?.slideMenuItemSelectedAtIndex(index)
+        }
+        
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.view.frame = CGRect(x: -UIScreen.main.bounds.size.width, y: 0, width: UIScreen.main.bounds.size.width,height: UIScreen.main.bounds.size.height)
+            self.view.layoutIfNeeded()
+            self.view.backgroundColor = UIColor.clear
+            }, completion: { (finished) -> Void in
+                self.view.removeFromSuperview()
+                self.removeFromParent()
+        })
+        
+    }
+    
+    
+    @IBAction func logOutButtonAction(_ sender: UIButton) {
+        logOutEveryThing()
+    }
+    
     func headerProfile(){
         headerProfileImage.layer.cornerRadius = headerProfileImage.frame.width/2
         headerProfileImage.layer.borderWidth = 1
@@ -35,15 +78,11 @@ class SideMenuViewController: UIViewController {
             headerProfileImage.sd_setImage(with: URL(string: profilUrl))
         }
         
+        if let profileName = Utility.getUserName(){
+            headerProfileName.text = profileName
+        }
     }
-    
-    @IBAction func onClickClose(_ sender: UIButton) {
-        sideMenuDismiss()
-    }
-    
-    @IBAction func logOutButtonAction(_ sender: UIButton) {
-        logOutEveryThing()
-    }
+
     
 //    @objc func handleTapDismission(recognizer: UIGestureRecognizer) {
 //        sideMenuDismiss()
@@ -85,41 +124,47 @@ extension SideMenuViewController: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
-
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let cell = tableView.cellForRow(at: indexPath) as! SideMenuTableViewCell
-
-        switch indexPath.row {
-        case 0:
-            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//            let profileModalVC = storyboard.instantiateViewController(withIdentifier: "ProfileModalID") as? ProfileViewController
-//            present(profileModalVC!, animated: true, completion: nil)
-
-            let productVC = storyboard.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
-            present(productVC, animated: true, completion: nil)
-            
-        case 1:
-            let profileVC = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-            self.navigationController?.pushViewController(profileVC, animated: true)
-                        
-        case 2:
-            let cartsVC = self.storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
-            self.navigationController?.pushViewController(cartsVC, animated: true)
-
-        case 3:
-            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentViewController") as! PaymentViewController
-            self.navigationController?.pushViewController(paymentVC, animated: true)
-        default:
-            break
-        }
+        let btn = UIButton(type: UIButton.ButtonType.custom)
+        btn.tag = indexPath.row
+        self.onClickSideMenuClose(btn)
     }
-    
+   
     
 }
 
 
+
+
+
+//        let cell = tableView.cellForRow(at: indexPath) as! SideMenuTableViewCell
+
+//        switch indexPath.row {
+//        case 0:
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            let productVC = storyboard.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
+//            present(productVC, animated: true, completion: nil)
+    
+//            let storyboradName = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = storyboradName.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
+//            self.navigationController?.pushViewController(vc, animated: true)
+    
+//        case 1:
+//            let profileVC = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+//            self.navigationController?.pushViewController(profileVC, animated: true)
+//
+//        case 2:
+//            let cartsVC = self.storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
+//            self.navigationController?.pushViewController(cartsVC, animated: true)
+//
+//        case 3:
+//            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentViewController") as! PaymentViewController
+//            self.navigationController?.pushViewController(paymentVC, animated: true)
+//        default:
+//            break
+//        }
+//    }
 
 
 

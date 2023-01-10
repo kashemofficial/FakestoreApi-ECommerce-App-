@@ -11,6 +11,7 @@ var addToCart = [ProductModel]()
 
 class ProductListViewController: UIViewController {
     
+    
     @IBOutlet weak var productTableView: UITableView!
     
     var allProducts = [ProductModel]()
@@ -22,7 +23,6 @@ class ProductListViewController: UIViewController {
     let menuBarButton = UIButton(type: .custom)
     let transition = SlideTransitions()
     
-    
     override func viewDidLoad(){
         super.viewDidLoad()
         setUpTableView()
@@ -32,7 +32,7 @@ class ProductListViewController: UIViewController {
         
         self.badgeCount.text = String(AppData.addCart)
         self.navigationItem.setHidesBackButton(true, animated: true)
-        
+        //addSlideMenuButton()
         leftBarButtonEdit()
         self.view.backgroundColor = .systemGray6
         
@@ -49,20 +49,20 @@ class ProductListViewController: UIViewController {
         menuBarButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         menuBarButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         menuBarButton.transform = CGAffineTransformMakeScale(1.7, 1.9)
-        menuBarButton.addTarget(self, action: #selector(sideMenuActionButton), for: UIControl.Event.touchUpInside)
+        menuBarButton.addTarget(self, action: #selector(onSlideMenuButtonPressed(_:)), for: UIControl.Event.touchUpInside)
         let leftBarButton1 = UIBarButtonItem(customView: menuBarButton)
         self.navigationItem.setLeftBarButtonItems([leftBarButton1], animated: false)
         
     }
     
     //MARK: SideMenu Bar Button Action
-    
-    @objc func sideMenuActionButton(){
-        guard let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenuViewController")else{return}
-        sideMenuViewController.modalPresentationStyle = .overCurrentContext
-        sideMenuViewController.transitioningDelegate = self
-        present(sideMenuViewController, animated: true)
-    }
+//
+//    @objc func sideMenuActionButton(){
+//        guard let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenuViewController")else{return}
+//        sideMenuViewController.modalPresentationStyle = .overCurrentContext
+//        sideMenuViewController.transitioningDelegate = self
+//        present(sideMenuViewController, animated: true)
+//    }
 
     //MARK: Right BarButton
     
@@ -181,7 +181,6 @@ extension ProductListViewController : UITableViewDataSource {
         cell.addToCart.addTarget(self, action: #selector(selectedItem), for: .touchUpInside)
         AppData.addProduct = addToCart.description
         return cell
-        
     }
     
     //MARK: selectCartItem
@@ -258,16 +257,129 @@ extension ProductListViewController: CurrentCatNumber {
 }
 
 
-extension ProductListViewController: UIViewControllerTransitioningDelegate{
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.isPresenting = true
-        return transition
+extension ProductListViewController: SlideMenuDelegate{
+
+    func slideMenuItemSelectedAtIndex(_ index: Int32) {
+        //        let topViewController : UIViewController = self.navigationController!.topViewController!
+        //print("View Controller is : \(topViewController) \n", terminator: "")
+        switch(index){
+        case 0:
+            print("Home\n", terminator: "")
+            
+            self.openViewControllerBasedOnIdentifier("ProductListViewController")
+            break
+        case 1:
+            print("Play\n", terminator: "")
+            self.openViewControllerBasedOnIdentifier("ProfileViewController")
+            break
+        case 2:
+            self.openViewControllerBasedOnIdentifier("CartAddViewController")
+            break
+        case 3:
+            self.openViewControllerBasedOnIdentifier("PaymentViewController")
+        default:
+            print("default\n", terminator: "")
+        }
     }
     
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.isPresenting = false
-        return transition
+    func openViewControllerBasedOnIdentifier(_ strIdentifier:String){
+        let destViewController : UIViewController = self.storyboard!.instantiateViewController(withIdentifier: strIdentifier)
+        
+        let topViewController : UIViewController = self.navigationController!.topViewController!
+        
+        if (topViewController.restorationIdentifier == destViewController.restorationIdentifier){
+            self.navigationController!.pushViewController(destViewController, animated: true)
+            print("Same VC")
+        } else {
+            self.navigationController!.pushViewController(topViewController, animated: true)
+        }
     }
     
+    func addSlideMenuButton(){
+        let btnShowMenu = UIButton(type: UIButton.ButtonType.system)
+        btnShowMenu.setImage(self.defaultMenuImage(), for: UIControl.State())
+        btnShowMenu.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btnShowMenu.addTarget(self, action: #selector(onSlideMenuButtonPressed(_:)), for: UIControl.Event.touchUpInside)
+        let customBarItem = UIBarButtonItem(customView: btnShowMenu)
+        self.navigationItem.leftBarButtonItem = customBarItem
+    }
+    
+    func defaultMenuImage() -> UIImage {
+        var defaultMenuImage = UIImage()
+        
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: 30, height: 22), false, 0.0)
+        
+        UIColor.black.setFill()
+        UIBezierPath(rect: CGRect(x: 0, y: 3, width: 30, height: 1)).fill()
+        UIBezierPath(rect: CGRect(x: 0, y: 10, width: 30, height: 1)).fill()
+        UIBezierPath(rect: CGRect(x: 0, y: 17, width: 30, height: 1)).fill()
+        
+        UIColor.white.setFill()
+        UIBezierPath(rect: CGRect(x: 0, y: 4, width: 30, height: 1)).fill()
+        UIBezierPath(rect: CGRect(x: 0, y: 11,  width: 30, height: 1)).fill()
+        UIBezierPath(rect: CGRect(x: 0, y: 18, width: 30, height: 1)).fill()
+        
+        defaultMenuImage = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+        
+        return defaultMenuImage;
+    }
+    
+    @objc func onSlideMenuButtonPressed(_ sender : UIButton){
+        if (sender.tag == 10)
+        {
+            // To Hide Menu If it already there
+            self.slideMenuItemSelectedAtIndex(-1);
+            
+            sender.tag = 0;
+            
+            let viewMenuBack : UIView = view.subviews.last!
+            
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                var frameMenu : CGRect = viewMenuBack.frame
+                frameMenu.origin.x = -1 * UIScreen.main.bounds.size.width
+                viewMenuBack.frame = frameMenu
+                viewMenuBack.layoutIfNeeded()
+                viewMenuBack.backgroundColor = UIColor.clear
+            }, completion: { (finished) -> Void in
+                viewMenuBack.removeFromSuperview()
+            })
+            
+            return
+        }
+        
+        sender.isEnabled = false
+        sender.tag = 10
+        
+        let menuVC : SideMenuViewController = self.storyboard!.instantiateViewController(withIdentifier: "SideMenuViewController") as! SideMenuViewController
+        menuVC.btnMenu = sender
+        menuVC.delegate = self
+        self.view.addSubview(menuVC.view)
+        self.addChild(menuVC)
+        menuVC.view.layoutIfNeeded()
+        
+        
+        menuVC.view.frame=CGRect(x: 0 - UIScreen.main.bounds.size.width, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height);
+        
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            menuVC.view.frame=CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height);
+            sender.isEnabled = true
+        }, completion:nil)
+    }
     
 }
+
+//extension ProductListViewController: UIViewControllerTransitioningDelegate{
+//    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        transition.isPresenting = true
+//        return transition
+//    }
+//
+//    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        transition.isPresenting = false
+//        return transition
+//    }
+//
+//}
+

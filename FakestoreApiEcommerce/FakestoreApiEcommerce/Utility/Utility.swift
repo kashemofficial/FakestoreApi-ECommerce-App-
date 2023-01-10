@@ -41,7 +41,6 @@ class Utility : NSObject{
         UserDefaults.standard.synchronize()
     }
     
-    
     static func isUserLogoutIn()-> Bool{
         return UserDefaults.standard.bool(forKey: "USER_LOGOUT")
     }

@@ -66,7 +66,6 @@ class LoginViewController: UIViewController {
                                 
                                 if let profileUrl = loginResponse.image {
                                     Utility.setUserImage(profileUrl)
-                                    
                                     print(profileUrl)
                                 }
                                 
