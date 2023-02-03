@@ -7,18 +7,22 @@
 
 import UIKit
 
-var addToCart = [ProductModel]()
+//var addToCart = [ProductModel]()
 
-class ProductListViewController: UIViewController {
-    
+protocol ProductViewPresentor {
+    func displayView()
+}
+
+class ProductListViewController: UIViewController, ProductView {
     
     @IBOutlet weak var productTableView: UITableView!
     
-    var allProducts = [ProductModel]()
-    
+    var allProducts : [ProductModel]?
+    var cartModel = DatabaseHelper()
+
     var cartCount = 0
     let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    let cartBarButton = UIButton(type: .custom)
+    let cartBarButton = UIButton()
     let profileBarButton = UIButton(type: .custom)
     let menuBarButton = UIButton(type: .custom)
     let transition = SlideTransitions()
@@ -27,15 +31,20 @@ class ProductListViewController: UIViewController {
         super.viewDidLoad()
         setUpTableView()
         fetchData()
-        showBadge()
+       // showBadge()
         rightBarButtonEdit()
         
-        self.badgeCount.text = String(AppData.addCart)
+       // self.badgeCount.text = String(AppData.addCart)
         self.navigationItem.setHidesBackButton(true, animated: true)
         //addSlideMenuButton()
         leftBarButtonEdit()
         self.view.backgroundColor = .systemGray6
-        
+        cartModel.cartView = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       _ =  cartModel.fetchCart()
     }
     
     //MARK: Left BarButton
@@ -64,6 +73,8 @@ class ProductListViewController: UIViewController {
         cartBarButton.setImage(UIImage(systemName: "cart"), for: .normal)
         cartBarButton.tintColor = UIColor(cgColor:  CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1))
         cartBarButton.backgroundColor = .clear
+        cartBarButton.setTitleColor(.black, for: .normal)
+
         cartBarButton.layer.cornerRadius = 5
         cartBarButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         cartBarButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
@@ -95,10 +106,12 @@ class ProductListViewController: UIViewController {
     
     @objc func allCartActionButton() {
         let vc = storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
-        vc.delegate = self
-        vc.selectedItems = addToCart
+//        vc.delegate = self
+//        vc.selectedItems = addToCart
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    //MARK: ImageProfile
     
     @objc func imageProfileActionButton(){
         print("Click!")
@@ -112,6 +125,15 @@ class ProductListViewController: UIViewController {
         productTableView.register(nib, forCellReuseIdentifier: "productTableViewCell")
     }
     
+    func saveOnCart(_ index: Int) {
+        guard let item = allProducts?[index] else { return }
+        cartModel.addToCart(item: item)
+    }
+    
+    func onTapAddCart(index: Int) {
+        saveOnCart(index)
+    }
+
     //MARK: fetchData
     
     func fetchData(){
@@ -135,66 +157,79 @@ class ProductListViewController: UIViewController {
     }
 }
 
-extension ProductListViewController : UITableViewDataSource {
+extension ProductListViewController : UITableViewDataSource ,CartViewModelDelegate,ProductViewPresentor {
+    
+    func displayCartCount(number: Int) {
+       cartBarButton.setTitle("\(number)", for: .normal)
+       //badgeCount.setValue(number, forKey: "Key")
+    }
+    
+    func displayView() {
+        productTableView.reloadData()
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allProducts.count
+        return allProducts?.count ?? 0
     }
     
     // MARK: UILabel Round
     
-    func badgeLabel() -> UILabel {
-        badgeCount.translatesAutoresizingMaskIntoConstraints = false
-        badgeCount.layer.cornerRadius = badgeCount.bounds.size.height / 2
-        badgeCount.textAlignment = .center
-        badgeCount.layer.masksToBounds = true
-        badgeCount.textColor = .white
-        badgeCount.font = badgeCount.font.withSize(12)
-        badgeCount.backgroundColor = .systemRed
-        badgeCount.text = String(cartCount)
-        return badgeCount
-    }
-    
-    func showBadge() {
-        let badge = badgeLabel()
-        cartBarButton.addSubview(badge)
-        NSLayoutConstraint.activate([
-            badge.leftAnchor.constraint(equalTo: cartBarButton.leftAnchor, constant: 25),
-            badge.topAnchor.constraint(equalTo: cartBarButton.topAnchor, constant: -1),
-            badge.widthAnchor.constraint(equalToConstant: 20),
-            badge.heightAnchor.constraint(equalToConstant: 20)
-        ])
-    }
+//    func badgeLabel() -> UILabel {
+//        badgeCount.translatesAutoresizingMaskIntoConstraints = false
+//        badgeCount.layer.cornerRadius = badgeCount.bounds.size.height / 2
+//        badgeCount.textAlignment = .center
+//        badgeCount.layer.masksToBounds = true
+//        badgeCount.textColor = .white
+//        badgeCount.font = badgeCount.font.withSize(12)
+//        badgeCount.backgroundColor = .systemRed
+//        badgeCount.text = String(cartCount)
+//        return badgeCount
+//    }
+//
+//    func showBadge() {
+//        let badge = badgeLabel()
+//        cartBarButton.addSubview(badge)
+//        NSLayoutConstraint.activate([
+//            badge.leftAnchor.constraint(equalTo: cartBarButton.leftAnchor, constant: 25),
+//            badge.topAnchor.constraint(equalTo: cartBarButton.topAnchor, constant: -1),
+//            badge.widthAnchor.constraint(equalToConstant: 20),
+//            badge.heightAnchor.constraint(equalToConstant: 20)
+//        ])
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
-        cell.configure(product: allProducts[indexPath.row])
-        cell.addToCart.addTarget(self, action: #selector(selectedItem), for: .touchUpInside)
-        AppData.addProduct = addToCart.description
+        cell.configure(product: allProducts![indexPath.row])
+       // cell.addToCart.addTarget(self, action: #selector(selectedItem), for: .touchUpInside)
+        cell.delegate = self
+        cell.addToCart?.tag = indexPath.row
         return cell
     }
     
     //MARK: selectCartItem
+//
+//    @objc func selectedItem(_ sender: UIButton){
+//        if let productCell = sender.superview?.superview as? ProductTableViewCell {
+//            guard let indexPath = productTableView.indexPath(for: productCell) else { return }
+//            let item = allProducts![indexPath.row]
+//            let message = "Are your sure add to cart"
+//            let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { [self](action:UIAlertAction!) in
+//                addToCart.append(item)
+//                self.cartBarButton.pulsate()
+//                cartCount += 1
+//                AppData.addCart = cartCount
+//                self.badgeCount.text! = String(cartCount)
+//            }))
+//
+//            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//
+//        }
+//    }
     
-    @objc func selectedItem(_ sender: UIButton){
-        if let productCell = sender.superview?.superview as? ProductTableViewCell {
-            guard let indexPath = productTableView.indexPath(for: productCell) else { return}
-            let item = allProducts[indexPath.row]
-            let message = "Are your sure add to cart"
-            let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { [self](action:UIAlertAction!) in
-                addToCart.append(item)
-                self.cartBarButton.pulsate()
-                cartCount += 1
-                AppData.addCart = cartCount
-                self.badgeCount.text! = String(cartCount)
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
-        }
-    }
+    
+    
 }
 
 extension ProductListViewController : UITableViewDelegate{
@@ -202,11 +237,11 @@ extension ProductListViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboradName = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboradName.instantiateViewController(withIdentifier: "ProductsDetailsViewController") as! ProductsDetailsViewController
-        vc.pImage = allProducts[indexPath.row].image!
-        vc.pTitle = allProducts[indexPath.row].title!
-        vc.pDescription = allProducts[indexPath.row].welcomeDescription ?? ""
-        vc.pCategory = (allProducts[indexPath.row].category!.rawValue)
-        vc.pPrice = "$" + String((allProducts[indexPath.row].price!))
+        vc.pImage = allProducts![indexPath.row].image!
+        vc.pTitle = allProducts![indexPath.row].title!
+        vc.pDescription = allProducts![indexPath.row].welcomeDescription ?? ""
+        vc.pCategory = (allProducts![indexPath.row].category!.rawValue)
+        vc.pPrice = "$" + String((allProducts![indexPath.row].price!))
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -239,13 +274,13 @@ extension UIView {
 }
 
 //MARK: cartCount delete pora kome jabe
-extension ProductListViewController: CurrentCatNumber {
-    func getNumber(_ num: Int) {
-        //cartCount = num
-        AppData.addCart = num
-        self.badgeCount.text = String(AppData.addCart)
-    }
-}
+//extension ProductListViewController: CurrentCatNumber {
+//    func getNumber(_ num: Int) {
+//        //cartCount = num
+//        AppData.addCart = num
+//        self.badgeCount.text = String(AppData.addCart)
+//    }
+//}
 
 
 extension ProductListViewController: SlideMenuDelegate{
@@ -285,37 +320,6 @@ extension ProductListViewController: SlideMenuDelegate{
             self.navigationController!.pushViewController(topViewController, animated: true)
         }
     }
-    
-//    func addSlideMenuButton(){
-//        let btnShowMenu = UIButton(type: UIButton.ButtonType.system)
-//        btnShowMenu.setImage(self.defaultMenuImage(), for: UIControl.State())
-//        btnShowMenu.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-//        btnShowMenu.addTarget(self, action: #selector(onSlideMenuButtonPressed(_:)), for: UIControl.Event.touchUpInside)
-//        let customBarItem = UIBarButtonItem(customView: btnShowMenu)
-//        self.navigationItem.leftBarButtonItem = customBarItem
-//    }
-//
-//    func defaultMenuImage() -> UIImage {
-//        var defaultMenuImage = UIImage()
-//
-//        UIGraphicsBeginImageContextWithOptions(CGSize(width: 30, height: 22), false, 0.0)
-//
-//        UIColor.black.setFill()
-//        UIBezierPath(rect: CGRect(x: 0, y: 3, width: 30, height: 1)).fill()
-//        UIBezierPath(rect: CGRect(x: 0, y: 10, width: 30, height: 1)).fill()
-//        UIBezierPath(rect: CGRect(x: 0, y: 17, width: 30, height: 1)).fill()
-//
-//        UIColor.white.setFill()
-//        UIBezierPath(rect: CGRect(x: 0, y: 4, width: 30, height: 1)).fill()
-//        UIBezierPath(rect: CGRect(x: 0, y: 11,  width: 30, height: 1)).fill()
-//        UIBezierPath(rect: CGRect(x: 0, y: 18, width: 30, height: 1)).fill()
-//
-//        defaultMenuImage = UIGraphicsGetImageFromCurrentImageContext()!
-//
-//        UIGraphicsEndImageContext()
-//
-//        return defaultMenuImage;
-//    }
     
     @objc func onSlideMenuButtonPressed(_ sender : UIButton){
         if (sender.tag == 10)

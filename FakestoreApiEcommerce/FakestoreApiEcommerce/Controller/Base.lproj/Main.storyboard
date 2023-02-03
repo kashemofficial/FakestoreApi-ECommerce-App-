@@ -286,7 +286,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0lG-Yd-9f6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1034.0579710144928" y="77.678571428571431"/>
+            <point key="canvasLocation" x="1028" y="67"/>
         </scene>
         <!--Cart Add View Controller-->
         <scene sceneID="VR9-1Q-A9X">
@@ -485,8 +485,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello World" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5cs-O8-qkc">
-                                <rect key="frame" x="139.66666666666666" y="137" width="148.99999999999997" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello World" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5cs-O8-qkc">
+                                <rect key="frame" x="50" y="137" width="328" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -495,7 +495,9 @@
                         <viewLayoutGuide key="safeArea" id="jBa-7J-Je7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="5cs-O8-qkc" firstAttribute="leading" secondItem="jBa-7J-Je7" secondAttribute="leading" constant="50" id="hZu-Np-hCB"/>
                             <constraint firstItem="5cs-O8-qkc" firstAttribute="top" secondItem="jBa-7J-Je7" secondAttribute="top" constant="90" id="qn8-Af-iwV"/>
+                            <constraint firstItem="jBa-7J-Je7" firstAttribute="trailing" secondItem="5cs-O8-qkc" secondAttribute="trailing" constant="50" id="wFG-X1-CSf"/>
                             <constraint firstItem="5cs-O8-qkc" firstAttribute="centerX" secondItem="2FA-ae-1Nf" secondAttribute="centerX" id="zGr-yP-naw"/>
                         </constraints>
                     </view>
@@ -550,7 +552,7 @@
                                 <rect key="frame" x="0.0" y="787" width="321" height="139"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wcp-gh-YDn">
-                                        <rect key="frame" x="111.66666666666666" y="5" width="97.666666666666657" height="38"/>
+                                        <rect key="frame" x="111.66666666666669" y="5" width="98" height="38"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="gray" title="Log Out">
                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>

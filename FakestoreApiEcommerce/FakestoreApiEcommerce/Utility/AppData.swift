@@ -84,7 +84,4 @@ struct AppData {
     @Storage(key: "addcat", defaultValue: 0)
     static var addCart: Int
     
-    @Storage(key: "addCart", defaultValue: "")
-    static var addProduct: String
-    
 }

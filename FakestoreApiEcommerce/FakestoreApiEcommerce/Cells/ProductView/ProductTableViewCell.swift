@@ -8,6 +8,10 @@
 import UIKit
 import SDWebImage
 
+protocol ProductView: AnyObject {
+    func onTapAddCart(index: Int)
+}
+
 class ProductTableViewCell: UITableViewCell {
     
     @IBOutlet weak var productImage: UIImageView!
@@ -15,8 +19,9 @@ class ProductTableViewCell: UITableViewCell {
     @IBOutlet weak var productCategory: UILabel!
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var productId: UILabel!
-    
     @IBOutlet weak var addToCart: UIButton!
+    
+    var delegate : ProductView?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,5 +46,10 @@ class ProductTableViewCell: UITableViewCell {
         productPrice.text = "$" + String(product.price!)
         
     }
+    
+    @IBAction func buttonAddToAction(_ sender: UIButton) {
+        delegate?.onTapAddCart(index: sender.tag)
+    }
+
     
 }

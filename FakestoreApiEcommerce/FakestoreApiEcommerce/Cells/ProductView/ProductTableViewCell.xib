@@ -61,6 +61,9 @@
                         <state key="normal">
                             <imageReference key="image" image="note.text.badge.plus" catalog="system" symbolScale="large" renderingMode="original"/>
                         </state>
+                        <connections>
+                            <action selector="buttonAddToAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="iPK-xD-anm"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

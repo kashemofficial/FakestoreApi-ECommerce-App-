@@ -41,10 +41,8 @@ class SideMenuViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-    
     @IBAction func onClickSideMenuClose(_ button: UIButton) {
         btnMenu.tag = 1
-        
         if (self.delegate != nil) {
             var index = Int32(button.tag)
             if(button == self.sideMenuButton){
@@ -129,40 +127,11 @@ extension SideMenuViewController: UITableViewDelegate,UITableViewDataSource{
         self.onClickSideMenuClose(btn)
     }
    
-    
 }
 
 
 
 
-
-//        let cell = tableView.cellForRow(at: indexPath) as! SideMenuTableViewCell
-
-//        switch indexPath.row {
-//        case 0:
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            let productVC = storyboard.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
-//            present(productVC, animated: true, completion: nil)
-    
-//            let storyboradName = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = storyboradName.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
-//            self.navigationController?.pushViewController(vc, animated: true)
-    
-//        case 1:
-//            let profileVC = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-//            self.navigationController?.pushViewController(profileVC, animated: true)
-//
-//        case 2:
-//            let cartsVC = self.storyboard?.instantiateViewController(withIdentifier: "CartAddViewController") as! CartAddViewController
-//            self.navigationController?.pushViewController(cartsVC, animated: true)
-//
-//        case 3:
-//            let paymentVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentViewController") as! PaymentViewController
-//            self.navigationController?.pushViewController(paymentVC, animated: true)
-//        default:
-//            break
-//        }
-//    }
 
 
 

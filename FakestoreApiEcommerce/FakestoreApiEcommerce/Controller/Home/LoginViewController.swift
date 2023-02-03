@@ -43,7 +43,6 @@ class LoginViewController: UIViewController {
         ValidationCode()
         
         if let userName = userNameTextField.text, let passWord = passwordTextField.text {
-            
             ProgressHUD.show()
             
             let requestObject = ["username": userName,
@@ -74,7 +73,6 @@ class LoginViewController: UIViewController {
                                     print(profileName)
                                 }
                                 
-                            
                                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
                                 self.navigationController?.pushViewController(vc, animated: true)
                                 
@@ -105,46 +103,68 @@ class LoginViewController: UIViewController {
     }
 }
 
+extension LoginViewController {
+    fileprivate func ValidationCode(){
+        if userNameTextField.text == "" || passwordTextField.text == ""{
+
+              // Alert
+            let optionMenu = UIAlertController(title: nil, message: "Please Enter Text", preferredStyle: .alert)
+
+              // Add actions to the menu
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel, handler:
+                  nil)
+              optionMenu.addAction(cancelAction)
+
+              // Display the menu
+            self.present(optionMenu, animated: true, completion: nil)
+
+          }
+
+
+      }   //End save butt
+    }
+
+
 //MARK: Password ValidationCode
     
-extension LoginViewController{
-        fileprivate func ValidationCode() {
-            if let username = userNameTextField.text, let password = passwordTextField.text {
-                if !username.validateUsername(){
-                    openAlert(title: "Alert",
-                              message: "Please enter Your Username",
-                              alertStyle: .alert,
-                              actionTitles: ["Okay"],
-                              actionStyles: [.default],
-                              actions: [{ _ in
-                        print("Okay Clicked!")
-                    }])
-
-                }else if !password.validatePassword(){
-                    openAlert(title: "Alert",
-                              message: "Please enter valid password",
-                              alertStyle: .alert,
-                              actionTitles: ["Okay"],
-                              actionStyles: [.default],
-                              actions: [{ _ in
-                        print("Okay Clicked!")
-                    }])
-                }else{
-                    //
-                }
-            }
-            else{
-                openAlert(title: "Alert",
-                          message: "Please add Detail.",
-                          alertStyle: .alert,
-                          actionTitles: ["Okay"],
-                          actionStyles: [.default],
-                          actions: [{ _ in
-                    print("Okay Clicked!")
-                }])
-            }
-        }
-    }
+//extension LoginViewController{
+//        fileprivate func ValidationCode() {
+//            if let username = userNameTextField.text == "", let password = passwordTextField.text {
+//                if !username.validateUsername(){
+//                    openAlert(title: "Alert",
+//                              message: "Please enter Your Username",
+//                              alertStyle: .alert,
+//                              actionTitles: ["Okay"],
+//                              actionStyles: [.default],
+//                              actions: [{ _ in
+//                        print("Okay Clicked!")
+//                    }])
+//
+//                }else if !password.validatePassword(){
+//                    openAlert(title: "Alert",
+//                              message: "Please enter valid password",
+//                              alertStyle: .alert,
+//                              actionTitles: ["Okay"],
+//                              actionStyles: [.default],
+//                              actions: [{ _ in
+//                        print("Okay Clicked!")
+//                    }])
+//                }else{
+//                    //
+//                }
+//            }
+//            else{
+//                openAlert(title: "Alert",
+//                          message: "Please add Detail.",
+//                          alertStyle: .alert,
+//                          actionTitles: ["Okay"],
+//                          actionStyles: [.default],
+//                          actions: [{ _ in
+//                    print("Okay Clicked!")
+//                }])
+//            }
+//        }
+//    }
 
     
     
