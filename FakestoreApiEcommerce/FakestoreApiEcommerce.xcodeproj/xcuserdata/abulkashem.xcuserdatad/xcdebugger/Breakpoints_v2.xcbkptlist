@@ -3,4 +3,166 @@
    uuid = "638D1417-11A5-4E99-92ED-ECD16D667100"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3B5ADCBA-6579-4EBE-8ECC-E56FECBDF8AB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "buttonSignInTapped(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3B5ADCBA-6579-4EBE-8ECC-E56FECBDF8AB - 3863475031fd1993"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Optional&lt;Foundation.Data&gt;) -&gt; () in FakestoreApiEcommerce.LoginViewController.buttonSignInTapped(__C.UIButton) -&gt; ()"
+                  moduleName = "FakestoreApiEcommerce"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/abulkashem/Desktop/Project_Github/FakestoreApi-ECommerce-App-/FakestoreApiEcommerce/FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "1452">
+               </Location>
+               <Location
+                  uuid = "3B5ADCBA-6579-4EBE-8ECC-E56FECBDF8AB - 3863475031fd1993"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Optional&lt;Foundation.Data&gt;) -&gt; () in FakestoreApiEcommerce.LoginViewController.buttonSignInTapped(__C.UIButton) -&gt; ()"
+                  moduleName = "FakestoreApiEcommerce"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/abulkashem/Desktop/Project_Github/FakestoreApi-ECommerce-App-/FakestoreApiEcommerce/FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "1488">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DDDF40C5-D9B0-4785-9866-328FD7C81DE2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "buttonSignInTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "19C815C3-F112-47A9-8157-45801EB0B7A7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "buttonSignInTapped(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "19C815C3-F112-47A9-8157-45801EB0B7A7 - 3863475031fd1fad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Optional&lt;Foundation.Data&gt;) -&gt; () in FakestoreApiEcommerce.LoginViewController.buttonSignInTapped(__C.UIButton) -&gt; ()"
+                  moduleName = "FakestoreApiEcommerce"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/abulkashem/Desktop/Project_Github/FakestoreApi-ECommerce-App-/FakestoreApiEcommerce/FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "980">
+               </Location>
+               <Location
+                  uuid = "19C815C3-F112-47A9-8157-45801EB0B7A7 - 3863475031fd1fad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Optional&lt;Foundation.Data&gt;) -&gt; () in FakestoreApiEcommerce.LoginViewController.buttonSignInTapped(__C.UIButton) -&gt; ()"
+                  moduleName = "FakestoreApiEcommerce"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/abulkashem/Desktop/Project_Github/FakestoreApi-ECommerce-App-/FakestoreApiEcommerce/FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "1016">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D5316335-757B-4CE3-A889-E75CFFE44956"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "buttonSignInTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "65E44D73-F57C-401B-8D98-506F86264FE8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "buttonSignInTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5B355B64-AA87-484C-8A37-0979B7501AFB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FakestoreApiEcommerce/Controller/Home/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "buttonSignInTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

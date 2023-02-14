@@ -19,7 +19,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         leftBarButtonEdit()
-        
         profileSetUp()
     }
     func profileSetUp(){
@@ -30,12 +29,21 @@ class ProfileViewController: UIViewController {
         profileImageView.layer.cornerRadius = profileImageView.frame.width/2
         profileImageView.layer.borderWidth = 1
         profileImageView.layer.borderColor = CGColor(srgbRed: 239/255, green: 109/255, blue: 73/255, alpha: 1)
+        
         if let profilUrl = Utility.getUserImage(){
             profileImageView.sd_setImage(with: URL(string: profilUrl))
         }
 
         if let profileNameUrl = Utility.getUserName(){
             self.profileUserName.text = profileNameUrl
+        }
+        
+        if let profileBirthDayUrl = Utility.getUserBirthDay(){
+            self.profileUserBirthDate.text = profileBirthDayUrl
+        }
+        
+        if let profilePhoneUrl = Utility.getUserPhone(){
+            self.profileUserPhone.text = profilePhoneUrl
         }
         
     }

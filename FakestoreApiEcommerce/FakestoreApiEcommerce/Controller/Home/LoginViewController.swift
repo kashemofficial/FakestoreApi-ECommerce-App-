@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
+    
     //let loginResponse = [LoginResponse]()
 
     
@@ -38,7 +39,6 @@ class LoginViewController: UIViewController {
         passwordView.layer.shadowRadius = 5
     }
     
-    
     @IBAction func buttonSignInTapped(_ sender: UIButton) {
         ValidationCode()
         
@@ -63,15 +63,34 @@ class LoginViewController: UIViewController {
                             if let _ = loginResponse.token, let _ = loginResponse.username {
                                 Utility.userLoggedIn(true)
                                 
+                                // profile image
+                                
                                 if let profileUrl = loginResponse.image {
                                     Utility.setUserImage(profileUrl)
                                     print(profileUrl)
                                 }
                                 
-                                if let profileName = loginResponse.maidenName{
+                                // profile username
+                                
+                                if let profileName = loginResponse.username{
                                     Utility.setUserName(profileName)
                                     print(profileName)
                                 }
+                                
+                                // profile BirthDay
+                                
+                                if let profileBirthDay = loginResponse.birthDate{
+                                    Utility.setUserBirthDay(profileBirthDay)
+                                    print(profileBirthDay)
+                                }
+                                
+                                // profile Phone Number
+                                
+                                if let profilePhone = loginResponse.phone{
+                                    Utility.setUserPhone(profilePhone)
+                                    print(profilePhone)
+                                }
+
                                 
                                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
                                 self.navigationController?.pushViewController(vc, animated: true)
@@ -87,6 +106,7 @@ class LoginViewController: UIViewController {
                         }
                         catch _ {
                             //show error alert
+                            
                         }
                     }
                     else {
@@ -105,24 +125,23 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController {
     fileprivate func ValidationCode(){
-        if userNameTextField.text == "" || passwordTextField.text == ""{
-
+        if userNameTextField.text == ""{
               // Alert
-            let optionMenu = UIAlertController(title: nil, message: "Please Enter Text", preferredStyle: .alert)
-
-              // Add actions to the menu
-            let cancelAction = UIAlertAction(title: "Ok", style: .cancel, handler:
+            let optionMenu = UIAlertController(title: nil, message: "Please Enter UserName",preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+            optionMenu.addAction(cancelAction)
+            self.present(optionMenu, animated: true, completion: nil)
+        }
+        else if passwordTextField.text == ""{
+            let optionMenu = UIAlertController(title: nil, message: "Please Enter Password", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Okay", style: .cancel, handler:
                   nil)
               optionMenu.addAction(cancelAction)
-
-              // Display the menu
             self.present(optionMenu, animated: true, completion: nil)
+        }
 
-          }
-
-
-      }   //End save butt
     }
+}
 
 
 //MARK: Password ValidationCode
@@ -165,7 +184,7 @@ extension LoginViewController {
 //            }
 //        }
 //    }
-
+//
     
     
     

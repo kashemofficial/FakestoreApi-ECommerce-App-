@@ -51,16 +51,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         return container
     }()
-
-
     
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()
-            } catch {
-                
+            }catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }

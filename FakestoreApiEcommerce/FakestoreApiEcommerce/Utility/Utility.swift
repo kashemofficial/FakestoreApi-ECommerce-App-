@@ -9,7 +9,9 @@ import Foundation
 import UIKit
 
 class Utility : NSObject{
-
+    
+    //log in
+    
     static func isUserLoggedIn()->Bool{
        return UserDefaults.standard.bool(forKey: "USER_LOGGED_IN")
     }
@@ -40,6 +42,30 @@ class Utility : NSObject{
         UserDefaults.standard.set(url, forKey: "USER_NAME")
         UserDefaults.standard.synchronize()
     }
+    
+    //BirthDay
+    
+    static func getUserBirthDay()-> String? {
+        return UserDefaults.standard.string(forKey: "USER_BIRTHDAY")
+    }
+    
+    static func setUserBirthDay(_ url: String){
+        UserDefaults.standard.set(url, forKey: "USER_BIRTHDAY")
+        UserDefaults.standard.synchronize()
+    }
+    
+    //Phone
+    
+    static func getUserPhone()-> String? {
+        return UserDefaults.standard.string(forKey: "USER_PHONE")
+    }
+    
+    static func setUserPhone(_ url: String){
+        UserDefaults.standard.set(url, forKey: "USER_PHONE")
+        UserDefaults.standard.synchronize()
+    }
+    
+    //log out
     
     static func isUserLogoutIn()-> Bool{
         return UserDefaults.standard.bool(forKey: "USER_LOGOUT")
